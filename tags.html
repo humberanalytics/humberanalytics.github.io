@@ -22,7 +22,7 @@
 
 
     <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://humberanalytics.github.io/theme/css/bootstrap.min.css" type="text/css"/>
+        <link rel="stylesheet" href="https://humberanalytics.github.io/theme/css/bootstrap.flatly.min.css" type="text/css"/>
     <link href="https://humberanalytics.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
 
     <link href="https://humberanalytics.github.io/theme/css/pygments/native.css" rel="stylesheet">
@@ -38,11 +38,20 @@
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a href="https://humberanalytics.github.io/" class="navbar-brand">
 Humber Analytics            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
+                        <li >
+                            <a href="https://humberanalytics.github.io/category/posts.html">Posts</a>
+                        </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
             </ul>
@@ -60,7 +69,21 @@ Humber Analytics            </a>
         <div class="col-sm-9">
     <section id="tags">
         <h1>Tags for Humber Analytics</h1>
-        <div class="panel-group" id="accordion">        </div>
+        <div class="panel-group" id="accordion">            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-python-firsts">python firsts <span class="badge pull-right">3</span></a>
+                    </h4>
+                </div>
+                <div id="collapse-python-firsts" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p><span class="categories-timestamp"><time datetime="2016-06-08T20:00:00+01:00">Wed 08 June 2016</time></span> <a href="https://humberanalytics.github.io/first-post.html">First Post</a></p>
+                        <p><span class="categories-timestamp"><time datetime="2016-06-08T20:00:00+01:00">Wed 08 June 2016</time></span> <a href="https://humberanalytics.github.io/second-post.html">Second Post</a></p>
+                        <p><span class="categories-timestamp"><time datetime="2016-06-08T20:00:00+01:00">Wed 08 June 2016</time></span> <a href="https://humberanalytics.github.io/third-post.html">Third Post</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </section>
         </div>
@@ -111,7 +134,7 @@ Humber Analytics            </a>
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy;  Dan Humphreys
+         <div class="col-xs-10">&copy; 2016 Dan Humphreys
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
