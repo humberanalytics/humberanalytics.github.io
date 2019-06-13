@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Humber Analytics</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2016-06-08T20:00:00+01:00</updated><entry><title>First Post</title><link href="/first-post.html" rel="alternate"></link><published>2016-06-08T20:00:00+01:00</published><updated>2016-06-08T20:00:00+01:00</updated><author><name>Vik Paruchuri</name></author><id>tag:None,2016-06-08:/first-post.html</id><summary type="html">&lt;p&gt;My first post, read it to find out.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Humber Analytics</title><link href="https://humberanalytics.github.io/" rel="alternate"></link><link href="https://humberanalytics.github.io/feeds/all.atom.xml" rel="self"></link><id>https://humberanalytics.github.io/</id><updated>2016-06-08T20:00:00+01:00</updated><entry><title>First Post</title><link href="https://humberanalytics.github.io/first-post.html" rel="alternate"></link><published>2016-06-08T20:00:00+01:00</published><updated>2016-06-08T20:00:00+01:00</updated><author><name>Vik Paruchuri</name></author><id>tag:humberanalytics.github.io,2016-06-08:/first-post.html</id><summary type="html">&lt;p&gt;My first post, read it to find out.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
 *
 * IPython notebook
 *
@@ -1204,7 +1204,7 @@ $$\frac{\partial (R^2)}{\partial b}=-2\sum_{i=1}^n [y_i-(a+bx_i)]x_i=0$$$$\sum_{
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</content><category term="python firsts"></category></entry><entry><title>Second Post</title><link href="/second-post.html" rel="alternate"></link><published>2016-06-08T20:00:00+01:00</published><updated>2016-06-08T20:00:00+01:00</updated><author><name>Vik Paruchuri</name></author><id>tag:None,2016-06-08:/second-post.html</id><summary type="html">&lt;p&gt;My first post, read it to find out.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
+</content><category term="python firsts"></category></entry><entry><title>Second Post</title><link href="https://humberanalytics.github.io/second-post.html" rel="alternate"></link><published>2016-06-08T20:00:00+01:00</published><updated>2016-06-08T20:00:00+01:00</updated><author><name>Vik Paruchuri</name></author><id>tag:humberanalytics.github.io,2016-06-08:/second-post.html</id><summary type="html">&lt;p&gt;My first post, read it to find out.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
 *
 * IPython notebook
 *
@@ -2409,7 +2409,7 @@ $$\frac{\partial (R^2)}{\partial b}=-2\sum_{i=1}^n [y_i-(a+bx_i)]x_i=0$$$$\sum_{
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</content><category term="python firsts"></category></entry><entry><title>Third Post</title><link href="/third-post.html" rel="alternate"></link><published>2016-06-08T20:00:00+01:00</published><updated>2016-06-08T20:00:00+01:00</updated><author><name>Vik Paruchuri</name></author><id>tag:None,2016-06-08:/third-post.html</id><summary type="html">&lt;p&gt;My first post, read it to find out.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
+</content><category term="python firsts"></category></entry><entry><title>Third Post</title><link href="https://humberanalytics.github.io/third-post.html" rel="alternate"></link><published>2016-06-08T20:00:00+01:00</published><updated>2016-06-08T20:00:00+01:00</updated><author><name>Vik Paruchuri</name></author><id>tag:humberanalytics.github.io,2016-06-08:/third-post.html</id><summary type="html">&lt;p&gt;My first post, read it to find out.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
 *
 * IPython notebook
 *
