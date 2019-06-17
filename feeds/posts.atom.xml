@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Humber Analytics - posts</title><link href="https://humberanalytics.github.io/" rel="alternate"></link><link href="https://humberanalytics.github.io/feeds/posts.atom.xml" rel="self"></link><id>https://humberanalytics.github.io/</id><updated>2019-06-17T00:00:00+01:00</updated><entry><title>Using OLS to fit a 3rd order polynomial to noisy data</title><link href="https://humberanalytics.github.io/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html" rel="alternate"></link><published>2019-06-17T00:00:00+01:00</published><updated>2019-06-17T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.github.io,2019-06-17:/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html</id><summary type="html">&lt;p&gt;This post shows the application of Ordinary Least Squares (OLS) to determine a line of best fit from a noisy 3rd order cubic polynomial model.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Humber Analytics - posts</title><link href="https://humberanalytics.github.io/" rel="alternate"></link><link href="https://humberanalytics.github.io/feeds/posts.atom.xml" rel="self"></link><id>https://humberanalytics.github.io/</id><updated>2019-06-17T00:00:00+01:00</updated><entry><title>Using OLS to fit a 3rd order polynomial to noisy data</title><link href="https://humberanalytics.github.io/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html" rel="alternate"></link><published>2019-06-17T00:00:00+01:00</published><updated>2019-06-17T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.github.io,2019-06-17:/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html</id><summary type="html">
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Using-Ordinary-Least-Squares-(OLS)-to-fit-a-3rd-order-polynomial-to-noisy-data"&gt;Using Ordinary Least Squares (OLS) to fit a 3rd order polynomial to noisy data&lt;a class="anchor-link" href="#Using-Ordinary-Least-Squares-(OLS)-to-fit-a-3rd-order-polynomial-to-noisy-data"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Following on from the &lt;a href="https://humberanalytics.com/Using-OLS-to-fit-a-linear-line-to-noisy-data.html"&gt;previous post&lt;/a&gt; where we used our ols() function to fit a linear line to noisy data we can extend also used the OLS equations to fit a higher order polynomial equation to noisy data.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
 *
 * IPython notebook
 *
@@ -1147,7 +1151,7 @@ h6:hover .anchor-link {
 .ansi-white-intense-bg { background-color: #A1A6B2; }
 
 .ansi-bold { font-weight: bold; }
-&lt;/style&gt;
+&lt;/style&gt;&lt;body&gt;
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;&lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
@@ -1496,7 +1500,7 @@ $$\hat \beta = (X^T X)^{-1} X^T y$$&lt;p&gt;Which we coded in our ols() function
 &lt;/div&gt;
  
 
-
+&lt;/body&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var mathjaxscript = document.createElement('script');
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -1525,7 +1529,12 @@ $$\hat \beta = (X^T X)^{-1} X^T y$$&lt;p&gt;Which we coded in our ols() function
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</content><category term="python"></category><category term="OLS"></category><category term="linear model"></category><category term="polynomial model"></category><category term="cubic"></category><category term="regression"></category></entry><entry><title>Using OLS to fit a linear line to noisy data</title><link href="https://humberanalytics.github.io/Using-OLS-to-fit-a-linear-line-to-noisy-data.html" rel="alternate"></link><published>2019-06-16T00:00:00+01:00</published><updated>2019-06-17T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.github.io,2019-06-16:/Using-OLS-to-fit-a-linear-line-to-noisy-data.html</id><summary type="html">&lt;p&gt;This post shows the derivation of the Ordinary Least Squares (OLS) equation and presents a simple test application in Python.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
+</content><category term="python"></category><category term="OLS"></category><category term="linear model"></category><category term="polynomial model"></category><category term="cubic"></category><category term="regression"></category></entry><entry><title>Using OLS to fit a linear line to noisy data</title><link href="https://humberanalytics.github.io/Using-OLS-to-fit-a-linear-line-to-noisy-data.html" rel="alternate"></link><published>2019-06-16T00:00:00+01:00</published><updated>2019-06-17T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.github.io,2019-06-16:/Using-OLS-to-fit-a-linear-line-to-noisy-data.html</id><summary type="html">
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Using-Ordinary-Least-Squares-(OLS)-to-fit-a-linear-line-to-noisy-data"&gt;Using Ordinary Least Squares (OLS) to fit a linear line to noisy data&lt;a class="anchor-link" href="#Using-Ordinary-Least-Squares-(OLS)-to-fit-a-linear-line-to-noisy-data"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Ordinary Least Squares (OLS) can be used to fit a linear line to noisy data.&lt;/p&gt;
+&lt;p&gt;If $y$ is a vector of measured data, $\beta_{0}$ and $\beta_{1}$ are the actual linear model parameters (intercept and gradient) and $\epsilon$ represents a the error vector, the model can be expressed as:&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
 *
 * IPython notebook
 *
@@ -2673,7 +2682,7 @@ h6:hover .anchor-link {
 .ansi-white-intense-bg { background-color: #A1A6B2; }
 
 .ansi-bold { font-weight: bold; }
-&lt;/style&gt;
+&lt;/style&gt;&lt;body&gt;
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;&lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
@@ -3030,7 +3039,7 @@ from Python Numpy to carry out thematrix algebra.&lt;/p&gt;
 &lt;/div&gt;
  
 
-
+&lt;/body&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var mathjaxscript = document.createElement('script');
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
