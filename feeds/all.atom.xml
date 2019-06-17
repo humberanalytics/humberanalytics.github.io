@@ -1152,8 +1152,8 @@ h6:hover .anchor-link {
 &lt;/div&gt;&lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h3 id="Using-Ordinary-Least-Squares-(OLS)-to-fit-a-3rd-order-polynomial-to-noisy-data"&gt;Using Ordinary Least Squares (OLS) to fit a 3rd order polynomial to noisy data&lt;a class="anchor-link" href="#Using-Ordinary-Least-Squares-(OLS)-to-fit-a-3rd-order-polynomial-to-noisy-data"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Following on from the &lt;a href="https://humberanalytics.com/Using-OLS-to-fit-a-linear-line-to-noisy-data.html"&gt;previous post&lt;/a&gt; where we used our ols() function to fit a linear line to noisy data we can extend also used the OLS equations to fit a higher order polynomial equation to noisy data.&lt;/p&gt;
-&lt;p&gt;Along the same lines as the previous post, let's consider a 3rd order polynomial model as follows, again $y$ is a vector of measured data, hwever this time $\beta_{0}$,  $\beta_{1}$, $\beta_{2}$ and $\beta_{3}$ are the cubic model parameters, $x$ represents the independent variable and $\epsilon$ represents the error vector, this model can therefore be expressed as:&lt;/p&gt;
-$$y_{1} = \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{1}^2 + \beta_{3}x_{1}^3 + \epsilon_{1}$$$$y_{2} = \beta_{0} + \beta_{1}x_{2} + \beta_{2}x_{2}^2 + \beta_{3}x_{2}^3 + \epsilon_{2}$$$$\vdots$$$$y_{n} = \beta_{0} + \beta_{1}x_{3} + \beta_{2}x_{3}^2 + \beta_{3}x_{3}^3 + \epsilon_{n}$$&lt;p&gt;From an estimation point of view, this non-linear model can effectively be considered a linear model if (instead of one independent variable ($x$)), we consider the model to have 3 independent variables $x$, $x^2$ and $x^3$.  Then we can write the model in the required linear form:&lt;/p&gt;
+&lt;p&gt;Along the same lines as the previous post, let's consider a 3rd order polynomial model as follows, again $y$ is a vector of measured data, however this time $\beta_{0}$,  $\beta_{1}$, $\beta_{2}$ and $\beta_{3}$ are the cubic model parameters, $x$ represents the independent variable and $\epsilon$ represents the error vector, this model can therefore be expressed as:&lt;/p&gt;
+$$y_{1} = \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{1}^2 + \beta_{3}x_{1}^3 + \epsilon_{1}$$$$y_{2} = \beta_{0} + \beta_{1}x_{2} + \beta_{2}x_{2}^2 + \beta_{3}x_{2}^3 + \epsilon_{2}$$$$\vdots$$$$y_{n} = \beta_{0} + \beta_{1}x_{3} + \beta_{2}x_{3}^2 + \beta_{3}x_{3}^3 + \epsilon_{n}$$&lt;p&gt;From an estimation point of view, this non-linear model can effectively be considered a linear model if, instead of one independent variable ($x$), we consider the model to have 3 independent variables $x$, $x^2$ and $x^3$.  Then we can write the model in the required linear form:&lt;/p&gt;
 $$\begin{bmatrix}
     y_{1} \\
     y_{2} \\
@@ -1493,19 +1493,6 @@ $$\hat \beta = (X^T X)^{-1} X^T y$$&lt;p&gt;Which we coded in our ols() function
 
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="cell border-box-sizing code_cell rendered"&gt;
-&lt;div class="input"&gt;
-&lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[&amp;nbsp;]:&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-    &lt;div class="input_area"&gt;
-&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; 
-&lt;/pre&gt;&lt;/div&gt;
-
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
 &lt;/div&gt;
  
 
@@ -2752,7 +2739,7 @@ from Python Numpy to carry out thematrix algebra.&lt;/p&gt;
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;&lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h3 id="Test-Data-Generation"&gt;Test Data Generation&lt;a class="anchor-link" href="#Test-Data-Generation"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Now let's generate some noisy data to test the function in Python:&lt;/p&gt;
+&lt;h3 id="Test-Data-Generation"&gt;Test Data Generation&lt;a class="anchor-link" href="#Test-Data-Generation"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Now let's generate some noisy data to test the function in Python.  The model is $y = 5.67 + 2.18x$ with normally distributed noise, mean = 0 and standard deviation = 5.0&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
