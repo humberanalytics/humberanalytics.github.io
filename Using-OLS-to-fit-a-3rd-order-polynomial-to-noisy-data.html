@@ -8,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <link href="https://humberanalytics.github.io/images/favicon.ico" rel="icon">
+    <link href="https://humberanalytics.com/images/favicon.ico" rel="icon">
 
-<link rel="canonical" href="https://humberanalytics.github.io/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html">
+<link rel="canonical" href="https://humberanalytics.com/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html">
 
         <meta name="author" content="Dan Humphreys" />
         <meta name="keywords" content="python,OLS,linear model,polynomial model,cubic,regression" />
@@ -19,7 +19,7 @@
         <meta property="og:site_name" content="Humber Analytics" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="Using OLS to fit a 3rd order polynomial to noisy data"/>
-        <meta property="og:url" content="https://humberanalytics.github.io/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html"/>
+        <meta property="og:url" content="https://humberanalytics.com/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html"/>
         <meta property="og:description" content="This post shows the application of Ordinary Least Squares (OLS) to determine a line of best fit from a noisy 3rd order cubic polynomial model."/>
         <meta property="article:published_time" content="2019-06-17" />
             <meta property="article:section" content="posts" />
@@ -34,17 +34,17 @@
 
 
     <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://humberanalytics.github.io/theme/css/bootstrap.cosmo.min.css" type="text/css"/>
-    <link href="https://humberanalytics.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://humberanalytics.com/theme/css/bootstrap.cosmo.min.css" type="text/css"/>
+    <link href="https://humberanalytics.com/theme/css/font-awesome.min.css" rel="stylesheet">
 
-    <link href="https://humberanalytics.github.io/theme/css/pygments/friendly.css" rel="stylesheet">
-    <link href="https://humberanalytics.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://humberanalytics.github.io/theme/css/style.css" type="text/css"/>
+    <link href="https://humberanalytics.com/theme/css/pygments/friendly.css" rel="stylesheet">
+    <link href="https://humberanalytics.com/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://humberanalytics.com/theme/css/style.css" type="text/css"/>
 
-        <link href="https://humberanalytics.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+        <link href="https://humberanalytics.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
               title="Humber Analytics ATOM Feed"/>
 
-        <link href="https://humberanalytics.github.io/feeds/posts.atom.xml" type="application/atom+xml" rel="alternate"
+        <link href="https://humberanalytics.com/feeds/posts.atom.xml" type="application/atom+xml" rel="alternate"
               title="Humber Analytics posts ATOM Feed"/>
 </head>
 <body>
@@ -58,13 +58,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="https://humberanalytics.github.io/" class="navbar-brand">
-<img class="img-responsive pull-left gap-right" src="https://humberanalytics.github.io/images/trans_bridge2.png" width="25"/> Humber Analytics            </a>
+            <a href="https://humberanalytics.com/" class="navbar-brand">
+<img class="img-responsive pull-left gap-right" src="https://humberanalytics.com/images/trans_bridge2.png" width="25"/> Humber Analytics            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
                         <li class="active">
-                            <a href="https://humberanalytics.github.io/category/posts.html">Posts</a>
+                            <a href="https://humberanalytics.com/category/posts.html">Posts</a>
                         </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -90,7 +90,7 @@
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="https://humberanalytics.github.io/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html"
+                    <a href="https://humberanalytics.com/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html"
                        rel="bookmark"
                        title="Permalink to Using OLS to fit a 3rd order polynomial to noisy data">
                         Using OLS to fit a 3rd order polynomial to noisy data
@@ -115,17 +115,17 @@
 
 
 <span class="label label-default">Tags</span>
-	<a href="https://humberanalytics.github.io/tag/python.html">python</a>
+	<a href="https://humberanalytics.com/tag/python.html">python</a>
         /
-	<a href="https://humberanalytics.github.io/tag/ols.html">OLS</a>
+	<a href="https://humberanalytics.com/tag/ols.html">OLS</a>
         /
-	<a href="https://humberanalytics.github.io/tag/linear-model.html">linear model</a>
+	<a href="https://humberanalytics.com/tag/linear-model.html">linear model</a>
         /
-	<a href="https://humberanalytics.github.io/tag/polynomial-model.html">polynomial model</a>
+	<a href="https://humberanalytics.com/tag/polynomial-model.html">polynomial model</a>
         /
-	<a href="https://humberanalytics.github.io/tag/cubic.html">cubic</a>
+	<a href="https://humberanalytics.com/tag/cubic.html">cubic</a>
         /
-	<a href="https://humberanalytics.github.io/tag/regression.html">regression</a>
+	<a href="https://humberanalytics.com/tag/regression.html">regression</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
@@ -1679,7 +1679,7 @@ $$\hat \beta = (X^T X)^{-1} X^T y$$<p>Which we coded in our ols() function:</p>
                 this.language = "en";
 
                         this.page.identifier = '2019-06-17-Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data';
-                        this.page.url = 'https://humberanalytics.github.io/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html';
+                        this.page.url = 'https://humberanalytics.com/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html';
             };
 
             /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -1704,7 +1704,7 @@ $$\hat \beta = (X^T X)^{-1} X^T y$$<p>Which we coded in our ols() function:</p>
             <aside>
 <div id="aboutme">
         <p>
-            <img width="100%" class="img-thumbnail" src="https://humberanalytics.github.io/images/yorkshire_moors_me_snipped.png"/>
+            <img width="100%" class="img-thumbnail" src="https://humberanalytics.com/images/yorkshire_moors_me_snipped.png"/>
         </p>
     <p>
       <strong>About Dan Humphreys</strong><br/>
@@ -1728,8 +1728,8 @@ $$\hat \beta = (X^T X)^{-1} X^T y$$<p>Which we coded in our ols() function:</p>
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
-    <li class="list-group-item"><a href="https://humberanalytics.github.io/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html">Using OLS to fit a 3rd order polynomial to noisy data</a></li>
-    <li class="list-group-item"><a href="https://humberanalytics.github.io/Using-OLS-to-fit-a-linear-line-to-noisy-data.html">Using OLS to fit a linear line to noisy data</a></li>
+    <li class="list-group-item"><a href="https://humberanalytics.com/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html">Using OLS to fit a 3rd order polynomial to noisy data</a></li>
+    <li class="list-group-item"><a href="https://humberanalytics.com/Using-OLS-to-fit-a-linear-line-to-noisy-data.html">Using OLS to fit a linear line to noisy data</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->
@@ -1770,16 +1770,16 @@ $$\hat \beta = (X^T X)^{-1} X^T y$$<p>Which we coded in our ols() function:</p>
       </div>
    </div>
 </footer>
-<script src="https://humberanalytics.github.io/theme/js/jquery.min.js"></script>
+<script src="https://humberanalytics.com/theme/js/jquery.min.js"></script>
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://humberanalytics.github.io/theme/js/bootstrap.min.js"></script>
+<script src="https://humberanalytics.com/theme/js/bootstrap.min.js"></script>
 
 <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="https://humberanalytics.github.io/theme/js/respond.min.js"></script>
+<script src="https://humberanalytics.com/theme/js/respond.min.js"></script>
 
 
-    <script src="https://humberanalytics.github.io/theme/js/bodypadding.js"></script>
+    <script src="https://humberanalytics.com/theme/js/bodypadding.js"></script>
     <!-- Disqus -->
     <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
