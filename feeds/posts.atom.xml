@@ -1,5 +1,1407 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Humber Analytics - posts</title><link href="https://humberanalytics.com/" rel="alternate"></link><link href="https://humberanalytics.com/feeds/posts.atom.xml" rel="self"></link><id>https://humberanalytics.com/</id><updated>2019-06-19T00:00:00+01:00</updated><entry><title>Using OLS to fit a 3rd order polynomial to noisy data</title><link href="https://humberanalytics.com/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html" rel="alternate"></link><published>2019-06-17T00:00:00+01:00</published><updated>2019-06-17T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.com,2019-06-17:/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html</id><summary type="html">&lt;p&gt;This post shows the application of Ordinary Least Squares (OLS) to determine a line of best fit from a noisy 3rd order cubic polynomial model.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Humber Analytics - posts</title><link href="https://humberanalytics.com/" rel="alternate"></link><link href="https://humberanalytics.com/feeds/posts.atom.xml" rel="self"></link><id>https://humberanalytics.com/</id><updated>2019-06-21T00:00:00+01:00</updated><entry><title>Using the Maximum Likelihood Estimation (MLE) to determine a linear line of best fit to noisy data</title><link href="https://humberanalytics.com/Using-the-Maximum-Likelihood-Estimation-(MLE)-to-determine-a-linear-line-of-best-fit-to-noisy-data.html" rel="alternate"></link><published>2019-06-21T00:00:00+01:00</published><updated>2019-06-21T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.com,2019-06-21:/Using-the-Maximum-Likelihood-Estimation-(MLE)-to-determine-a-linear-line-of-best-fit-to-noisy-data.html</id><summary type="html">&lt;p&gt;This post shows a simple derivation of the likelihood equation, how we can maximise likelihood to determine a line of best fit with Python and how this compares to Ordinary Least Squares (OLS).&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
+*
+* IPython notebook
+*
+*/
+/* CSS font colors for translated ANSI escape sequences */
+/* The color values are a mix of
+   http://www.xcolors.net/dl/baskerville-ivorylight and
+   http://www.xcolors.net/dl/euphrasia */
+.ansi-black-fg {
+  color: #3E424D;
+}
+.ansi-black-bg {
+  background-color: #3E424D;
+}
+.ansi-black-intense-fg {
+  color: #282C36;
+}
+.ansi-black-intense-bg {
+  background-color: #282C36;
+}
+.ansi-red-fg {
+  color: #E75C58;
+}
+.ansi-red-bg {
+  background-color: #E75C58;
+}
+.ansi-red-intense-fg {
+  color: #B22B31;
+}
+.ansi-red-intense-bg {
+  background-color: #B22B31;
+}
+.ansi-green-fg {
+  color: #00A250;
+}
+.ansi-green-bg {
+  background-color: #00A250;
+}
+.ansi-green-intense-fg {
+  color: #007427;
+}
+.ansi-green-intense-bg {
+  background-color: #007427;
+}
+.ansi-yellow-fg {
+  color: #DDB62B;
+}
+.ansi-yellow-bg {
+  background-color: #DDB62B;
+}
+.ansi-yellow-intense-fg {
+  color: #B27D12;
+}
+.ansi-yellow-intense-bg {
+  background-color: #B27D12;
+}
+.ansi-blue-fg {
+  color: #208FFB;
+}
+.ansi-blue-bg {
+  background-color: #208FFB;
+}
+.ansi-blue-intense-fg {
+  color: #0065CA;
+}
+.ansi-blue-intense-bg {
+  background-color: #0065CA;
+}
+.ansi-magenta-fg {
+  color: #D160C4;
+}
+.ansi-magenta-bg {
+  background-color: #D160C4;
+}
+.ansi-magenta-intense-fg {
+  color: #A03196;
+}
+.ansi-magenta-intense-bg {
+  background-color: #A03196;
+}
+.ansi-cyan-fg {
+  color: #60C6C8;
+}
+.ansi-cyan-bg {
+  background-color: #60C6C8;
+}
+.ansi-cyan-intense-fg {
+  color: #258F8F;
+}
+.ansi-cyan-intense-bg {
+  background-color: #258F8F;
+}
+.ansi-white-fg {
+  color: #C5C1B4;
+}
+.ansi-white-bg {
+  background-color: #C5C1B4;
+}
+.ansi-white-intense-fg {
+  color: #A1A6B2;
+}
+.ansi-white-intense-bg {
+  background-color: #A1A6B2;
+}
+.ansi-default-inverse-fg {
+  color: #FFFFFF;
+}
+.ansi-default-inverse-bg {
+  background-color: #000000;
+}
+.ansi-bold {
+  font-weight: bold;
+}
+.ansi-underline {
+  text-decoration: underline;
+}
+/* The following styles are deprecated an will be removed in a future version */
+.ansibold {
+  font-weight: bold;
+}
+.ansi-inverse {
+  outline: 0.5px dotted;
+}
+/* use dark versions for foreground, to improve visibility */
+.ansiblack {
+  color: black;
+}
+.ansired {
+  color: darkred;
+}
+.ansigreen {
+  color: darkgreen;
+}
+.ansiyellow {
+  color: #c4a000;
+}
+.ansiblue {
+  color: darkblue;
+}
+.ansipurple {
+  color: darkviolet;
+}
+.ansicyan {
+  color: steelblue;
+}
+.ansigray {
+  color: gray;
+}
+/* and light for background, for the same reason */
+.ansibgblack {
+  background-color: black;
+}
+.ansibgred {
+  background-color: red;
+}
+.ansibggreen {
+  background-color: green;
+}
+.ansibgyellow {
+  background-color: yellow;
+}
+.ansibgblue {
+  background-color: blue;
+}
+.ansibgpurple {
+  background-color: magenta;
+}
+.ansibgcyan {
+  background-color: cyan;
+}
+.ansibggray {
+  background-color: gray;
+}
+div.cell {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-radius: 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  width: 100%;
+  padding: 5px;
+  /* This acts as a spacer between cells, that is outside the border */
+  margin: 0px;
+  outline: none;
+  position: relative;
+  overflow: visible;
+}
+div.cell:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: transparent;
+}
+div.cell.jupyter-soft-selected {
+  border-left-color: #E3F2FD;
+  border-left-width: 1px;
+  padding-left: 5px;
+  border-right-color: #E3F2FD;
+  border-right-width: 1px;
+  background: #E3F2FD;
+}
+@media print {
+  div.cell.jupyter-soft-selected {
+    border-color: transparent;
+  }
+}
+div.cell.selected,
+div.cell.selected.jupyter-soft-selected {
+  border-color: #ababab;
+}
+div.cell.selected:before,
+div.cell.selected.jupyter-soft-selected:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: #42A5F5;
+}
+@media print {
+  div.cell.selected,
+  div.cell.selected.jupyter-soft-selected {
+    border-color: transparent;
+  }
+}
+.edit_mode div.cell.selected {
+  border-color: #66BB6A;
+}
+.edit_mode div.cell.selected:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: #66BB6A;
+}
+@media print {
+  .edit_mode div.cell.selected {
+    border-color: transparent;
+  }
+}
+.prompt {
+  /* This needs to be wide enough for 3 digit prompt numbers: In[100]: */
+  min-width: 14ex;
+  /* This padding is tuned to match the padding on the CodeMirror editor. */
+  padding: 0.4em;
+  margin: 0px;
+  font-family: monospace;
+  text-align: right;
+  /* This has to match that of the the CodeMirror class line-height below */
+  line-height: 1.21429em;
+  /* Don't highlight prompt number selection */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Use default cursor */
+  cursor: default;
+}
+@media (max-width: 540px) {
+  .prompt {
+    text-align: left;
+  }
+}
+div.inner_cell {
+  min-width: 0;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* Old browsers */
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  /* Modern browsers */
+  flex: 1;
+}
+/* input_area and input_prompt must match in top border and margin for alignment */
+div.input_area {
+  border: 1px solid #cfcfcf;
+  border-radius: 2px;
+  background: #f7f7f7;
+  line-height: 1.21429em;
+}
+/* This is needed so that empty prompt areas can collapse to zero height when there
+   is no content in the output_subarea and the prompt. The main purpose of this is
+   to make sure that empty JavaScript output_subareas have no height. */
+div.prompt:empty {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+div.unrecognized_cell {
+  padding: 5px 5px 5px 0px;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+div.unrecognized_cell .inner_cell {
+  border-radius: 2px;
+  padding: 5px;
+  font-weight: bold;
+  color: red;
+  border: 1px solid #cfcfcf;
+  background: #eaeaea;
+}
+div.unrecognized_cell .inner_cell a {
+  color: inherit;
+  text-decoration: none;
+}
+div.unrecognized_cell .inner_cell a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+@media (max-width: 540px) {
+  div.unrecognized_cell &gt; div.prompt {
+    display: none;
+  }
+}
+div.code_cell {
+  /* avoid page breaking on code cells when printing */
+}
+@media print {
+  div.code_cell {
+    page-break-inside: avoid;
+  }
+}
+/* any special styling for code cells that are currently running goes here */
+div.input {
+  page-break-inside: avoid;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.input {
+    /* Old browsers */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    /* Modern browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+/* input_area and input_prompt must match in top border and margin for alignment */
+div.input_prompt {
+  color: #303F9F;
+  border-top: 1px solid transparent;
+}
+div.input_area &gt; div.highlight {
+  margin: 0.4em;
+  border: none;
+  padding: 0px;
+  background-color: transparent;
+}
+div.input_area &gt; div.highlight &gt; pre {
+  margin: 0px;
+  border: none;
+  padding: 0px;
+  background-color: transparent;
+}
+/* The following gets added to the &lt;head&gt; if it is detected that the user has a
+ * monospace font with inconsistent normal/bold/italic height.  See
+ * notebookmain.js.  Such fonts will have keywords vertically offset with
+ * respect to the rest of the text.  The user should select a better font.
+ * See: https://github.com/ipython/ipython/issues/1503
+ *
+ * .CodeMirror span {
+ *      vertical-align: bottom;
+ * }
+ */
+.CodeMirror {
+  line-height: 1.21429em;
+  /* Changed from 1em to our global default */
+  font-size: 14px;
+  height: auto;
+  /* Changed to auto to autogrow */
+  background: none;
+  /* Changed from white to allow our bg to show through */
+}
+.CodeMirror-scroll {
+  /*  The CodeMirror docs are a bit fuzzy on if overflow-y should be hidden or visible.*/
+  /*  We have found that if it is visible, vertical scrollbars appear with font size changes.*/
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.CodeMirror-lines {
+  /* In CM2, this used to be 0.4em, but in CM3 it went to 4px. We need the em value because */
+  /* we have set a different line-height and want this to scale with that. */
+  /* Note that this should set vertical padding only, since CodeMirror assumes
+       that horizontal padding will be set on CodeMirror pre */
+  padding: 0.4em 0;
+}
+.CodeMirror-linenumber {
+  padding: 0 8px 0 4px;
+}
+.CodeMirror-gutters {
+  border-bottom-left-radius: 2px;
+  border-top-left-radius: 2px;
+}
+.CodeMirror pre {
+  /* In CM3 this went to 4px from 0 in CM2. This sets horizontal padding only,
+    use .CodeMirror-lines for vertical */
+  padding: 0 0.4em;
+  border: 0;
+  border-radius: 0;
+}
+.CodeMirror-cursor {
+  border-left: 1.4px solid black;
+}
+@media screen and (min-width: 2138px) and (max-width: 4319px) {
+  .CodeMirror-cursor {
+    border-left: 2px solid black;
+  }
+}
+@media screen and (min-width: 4320px) {
+  .CodeMirror-cursor {
+    border-left: 4px solid black;
+  }
+}
+/*
+
+Original style from softwaremaniacs.org (c) Ivan Sagalaev &lt;Maniac@SoftwareManiacs.Org&gt;
+Adapted from GitHub theme
+
+*/
+.highlight-base {
+  color: #000;
+}
+.highlight-variable {
+  color: #000;
+}
+.highlight-variable-2 {
+  color: #1a1a1a;
+}
+.highlight-variable-3 {
+  color: #333333;
+}
+.highlight-string {
+  color: #BA2121;
+}
+.highlight-comment {
+  color: #408080;
+  font-style: italic;
+}
+.highlight-number {
+  color: #080;
+}
+.highlight-atom {
+  color: #88F;
+}
+.highlight-keyword {
+  color: #008000;
+  font-weight: bold;
+}
+.highlight-builtin {
+  color: #008000;
+}
+.highlight-error {
+  color: #f00;
+}
+.highlight-operator {
+  color: #AA22FF;
+  font-weight: bold;
+}
+.highlight-meta {
+  color: #AA22FF;
+}
+/* previously not defined, copying from default codemirror */
+.highlight-def {
+  color: #00f;
+}
+.highlight-string-2 {
+  color: #f50;
+}
+.highlight-qualifier {
+  color: #555;
+}
+.highlight-bracket {
+  color: #997;
+}
+.highlight-tag {
+  color: #170;
+}
+.highlight-attribute {
+  color: #00c;
+}
+.highlight-header {
+  color: blue;
+}
+.highlight-quote {
+  color: #090;
+}
+.highlight-link {
+  color: #00c;
+}
+/* apply the same style to codemirror */
+.cm-s-ipython span.cm-keyword {
+  color: #008000;
+  font-weight: bold;
+}
+.cm-s-ipython span.cm-atom {
+  color: #88F;
+}
+.cm-s-ipython span.cm-number {
+  color: #080;
+}
+.cm-s-ipython span.cm-def {
+  color: #00f;
+}
+.cm-s-ipython span.cm-variable {
+  color: #000;
+}
+.cm-s-ipython span.cm-operator {
+  color: #AA22FF;
+  font-weight: bold;
+}
+.cm-s-ipython span.cm-variable-2 {
+  color: #1a1a1a;
+}
+.cm-s-ipython span.cm-variable-3 {
+  color: #333333;
+}
+.cm-s-ipython span.cm-comment {
+  color: #408080;
+  font-style: italic;
+}
+.cm-s-ipython span.cm-string {
+  color: #BA2121;
+}
+.cm-s-ipython span.cm-string-2 {
+  color: #f50;
+}
+.cm-s-ipython span.cm-meta {
+  color: #AA22FF;
+}
+.cm-s-ipython span.cm-qualifier {
+  color: #555;
+}
+.cm-s-ipython span.cm-builtin {
+  color: #008000;
+}
+.cm-s-ipython span.cm-bracket {
+  color: #997;
+}
+.cm-s-ipython span.cm-tag {
+  color: #170;
+}
+.cm-s-ipython span.cm-attribute {
+  color: #00c;
+}
+.cm-s-ipython span.cm-header {
+  color: blue;
+}
+.cm-s-ipython span.cm-quote {
+  color: #090;
+}
+.cm-s-ipython span.cm-link {
+  color: #00c;
+}
+.cm-s-ipython span.cm-error {
+  color: #f00;
+}
+.cm-s-ipython span.cm-tab {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+div.output_wrapper {
+  /* this position must be relative to enable descendents to be absolute within it */
+  position: relative;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 1;
+}
+/* class for the output area when it should be height-limited */
+div.output_scroll {
+  /* ideally, this would be max-height, but FF barfs all over that */
+  height: 24em;
+  /* FF needs this *and the wrapper* to specify full width, or it will shrinkwrap */
+  width: 100%;
+  overflow: auto;
+  border-radius: 2px;
+  -webkit-box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  display: block;
+}
+/* output div while it is collapsed */
+div.output_collapsed {
+  margin: 0px;
+  padding: 0px;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+div.out_prompt_overlay {
+  height: 100%;
+  padding: 0px 0.4em;
+  position: absolute;
+  border-radius: 2px;
+}
+div.out_prompt_overlay:hover {
+  /* use inner shadow to get border that is computed the same on WebKit/FF */
+  -webkit-box-shadow: inset 0 0 1px #000;
+  box-shadow: inset 0 0 1px #000;
+  background: rgba(240, 240, 240, 0.5);
+}
+div.output_prompt {
+  color: #D84315;
+}
+/* This class is the outer container of all output sections. */
+div.output_area {
+  padding: 0px;
+  page-break-inside: avoid;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+div.output_area .MathJax_Display {
+  text-align: left !important;
+}
+div.output_area 
+div.output_area 
+div.output_area img,
+div.output_area svg {
+  max-width: 100%;
+  height: auto;
+}
+div.output_area img.unconfined,
+div.output_area svg.unconfined {
+  max-width: none;
+}
+div.output_area .mglyph &gt; img {
+  max-width: none;
+}
+/* This is needed to protect the pre formating from global settings such
+   as that of bootstrap */
+.output {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.output_area {
+    /* Old browsers */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    /* Modern browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+div.output_area pre {
+  margin: 0;
+  padding: 1px 0 1px 0;
+  border: 0;
+  vertical-align: baseline;
+  color: black;
+  background-color: transparent;
+  border-radius: 0;
+}
+/* This class is for the output subarea inside the output_area and after
+   the prompt div. */
+div.output_subarea {
+  overflow-x: auto;
+  padding: 0.4em;
+  /* Old browsers */
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  /* Modern browsers */
+  flex: 1;
+  max-width: calc(100% - 14ex);
+}
+div.output_scroll div.output_subarea {
+  overflow-x: visible;
+}
+/* The rest of the output_* classes are for special styling of the different
+   output types */
+/* all text output has this class: */
+div.output_text {
+  text-align: left;
+  color: #000;
+  /* This has to match that of the the CodeMirror class line-height below */
+  line-height: 1.21429em;
+}
+/* stdout/stderr are 'text' as well as 'stream', but execute_result/error are *not* streams */
+div.output_stderr {
+  background: #fdd;
+  /* very light red background for stderr */
+}
+div.output_latex {
+  text-align: left;
+}
+/* Empty output_javascript divs should have no height */
+div.output_javascript:empty {
+  padding: 0;
+}
+.js-error {
+  color: darkred;
+}
+/* raw_input styles */
+div.raw_input_container {
+  line-height: 1.21429em;
+  padding-top: 5px;
+}
+pre.raw_input_prompt {
+  /* nothing needed here. */
+}
+input.raw_input {
+  font-family: monospace;
+  font-size: inherit;
+  color: inherit;
+  width: auto;
+  /* make sure input baseline aligns with prompt */
+  vertical-align: baseline;
+  /* padding + margin = 0.5em between prompt and cursor */
+  padding: 0em 0.25em;
+  margin: 0em 0.25em;
+}
+input.raw_input:focus {
+  box-shadow: none;
+}
+p.p-space {
+  margin-bottom: 10px;
+}
+div.output_unrecognized {
+  padding: 5px;
+  font-weight: bold;
+  color: red;
+}
+div.output_unrecognized a {
+  color: inherit;
+  text-decoration: none;
+}
+div.output_unrecognized a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+.rendered_html {
+  color: #000;
+  /* any extras will just be numbers: */
+}
+
+
+
+.rendered_html :link {
+  text-decoration: underline;
+}
+.rendered_html :visited {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+.rendered_html h1:first-child {
+  margin-top: 0.538em;
+}
+.rendered_html h2:first-child {
+  margin-top: 0.636em;
+}
+.rendered_html h3:first-child {
+  margin-top: 0.777em;
+}
+.rendered_html h4:first-child {
+  margin-top: 1em;
+}
+.rendered_html h5:first-child {
+  margin-top: 1em;
+}
+.rendered_html h6:first-child {
+  margin-top: 1em;
+}
+.rendered_html ul:not(.list-inline),
+.rendered_html ol:not(.list-inline) {
+  padding-left: 2em;
+}
+
+
+
+
+
+
+
+
+.rendered_html * + ul {
+  margin-top: 1em;
+}
+.rendered_html * + ol {
+  margin-top: 1em;
+}
+
+
+
+
+
+.rendered_html pre,
+
+
+
+
+.rendered_html tr,
+.rendered_html th,
+
+
+.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+.rendered_html * + table {
+  margin-top: 1em;
+}
+
+.rendered_html * + p {
+  margin-top: 1em;
+}
+
+.rendered_html * + img {
+  margin-top: 1em;
+}
+.rendered_html img,
+
+.rendered_html img.unconfined,
+
+
+.rendered_html * + .alert {
+  margin-top: 1em;
+}
+[dir="rtl"] 
+div.text_cell {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.text_cell &gt; div.prompt {
+    display: none;
+  }
+}
+div.text_cell_render {
+  /*font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;*/
+  outline: none;
+  resize: none;
+  width: inherit;
+  border-style: none;
+  padding: 0.5em 0.5em 0.5em 0.4em;
+  color: #000;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+a.anchor-link:link {
+  text-decoration: none;
+  padding: 0px 20px;
+  visibility: hidden;
+}
+h1:hover .anchor-link,
+h2:hover .anchor-link,
+h3:hover .anchor-link,
+h4:hover .anchor-link,
+h5:hover .anchor-link,
+h6:hover .anchor-link {
+  visibility: visible;
+}
+.text_cell.rendered .input_area {
+  display: none;
+}
+.text_cell.rendered 
+.text_cell.rendered .rendered_html tr,
+.text_cell.rendered .rendered_html th,
+.text_cell.rendered 
+.text_cell.unrendered .text_cell_render {
+  display: none;
+}
+.text_cell .dropzone .input_area {
+  border: 2px dashed #bababa;
+  margin: -1px;
+}
+.cm-header-1,
+.cm-header-2,
+.cm-header-3,
+.cm-header-4,
+.cm-header-5,
+.cm-header-6 {
+  font-weight: bold;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.cm-header-1 {
+  font-size: 185.7%;
+}
+.cm-header-2 {
+  font-size: 157.1%;
+}
+.cm-header-3 {
+  font-size: 128.6%;
+}
+.cm-header-4 {
+  font-size: 110%;
+}
+.cm-header-5 {
+  font-size: 100%;
+  font-style: italic;
+}
+.cm-header-6 {
+  font-size: 100%;
+  font-style: italic;
+}
+&lt;/style&gt;
+&lt;style type="text/css"&gt;.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */&lt;/style&gt;
+&lt;style type="text/css"&gt;
+/* Temporary definitions which will become obsolete with Notebook release 5.0 */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+&lt;/style&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Using-the-Maximum-Likelihood-Estimation-(MLE)-to-determine-a-linear-line-of-best-fit-to-noisy-data"&gt;Using the Maximum Likelihood Estimation (MLE) to determine a linear line of best fit to noisy data&lt;a class="anchor-link" href="#Using-the-Maximum-Likelihood-Estimation-(MLE)-to-determine-a-linear-line-of-best-fit-to-noisy-data"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;This post contains a brief simple derivation of the MLE equation and a Python implementation to determine a line of best fit to some noisy data.  The final section of the post then shows why using MLE results in the same linear coefficients as OLS when the noise is normally distributed.&lt;/p&gt;
+&lt;p&gt;As before if we consider $y$ to be our vector of measured data, $\beta_{0}$ and $\beta_{1}$ are the actual linear model parameters (intercept and gradient) and $\epsilon$ represents the error vector, then the model can be expressed as:&lt;/p&gt;
+$$y_{1} = \beta_{0} + \beta_{1}x_{1} + \epsilon_{1}$$$$y_{2} = \beta_{0} + \beta_{1}x_{2} + \epsilon_{2}$$$$\vdots$$$$y_{n} = \beta_{0} + \beta_{1}x_{n} + \epsilon_{n}$$&lt;p&gt;If the error vector $\epsilon$ is normally distributed $N(0,\sigma^{2})$ (as was considered for the previous post), each measurement can be thought of being sampled from it's own distribution with means $\mu_{i} = \beta_{0}+\beta_{1}x_{i}$ and constant variance $\sigma^{2}$.&lt;/p&gt;
+&lt;p&gt;If the probability of a single point is $N(y_{i}|\mu_{i},\sigma^{2})$ then the probability of all points occurring from the distribution defined by $\mu_{i} = \beta_{0}+\beta_{1}x_{i}$ and $\sigma^2$ is the product of these probabilities:&lt;/p&gt;
+$$\prod_{i = 1}^{n} N(y_{i}|\mu_{i},\sigma^{2})$$&lt;p&gt;This is also the likelihood of the normal distributions defined by $\mu_{i}$ and $\sigma^{2}$ being the distributions from which data points $y_{i}$ have been sampled:&lt;/p&gt;
+$$L(\mu_{i}, \sigma^{2}|y_{i}) = \prod_{i = 1}^{n} N(y_{i}|\mu_{i},\sigma^{2})$$&lt;p&gt;Now since the probability density function (pdf) for a normal distribution is:&lt;/p&gt;
+$$P(y) = \frac{1}{\sqrt{2\pi \sigma ^{2}}}exp \left( {\frac{-\left ( y-\mu  \right )^{2}}{2\sigma ^{2}}} \right)$$&lt;p&gt;The likelihood can be defined as the product of the individual probabilities calculated for each data point:&lt;/p&gt;
+$$L(\mu_{i}, \sigma^{2}|y_{i}) = \prod_{i = 1}^{n} \frac{1}{\sqrt{2\pi \sigma ^{2}}}exp \left( {\frac{-\left ( y_{i} -\mu_{i}  \right )^{2}}{2\sigma ^{2}}} \right)$$$$L(\mu_{i}, \sigma^{2}|y_{i}) = \left( \frac{1}{\sqrt{2\pi \sigma ^{2}}} \right) ^n \prod_{i = 1}^{n} exp \left( {\frac{-\left ( y_{i} -\mu_{i}  \right )^{2}}{2\sigma ^{2}}} \right)$$&lt;p&gt;And since $e^\left(a\right)e^\left(b\right) = e^\left(a+b\right)$:&lt;/p&gt;
+$$L(\mu_{i}, \sigma^{2}|y_{i}) = \left( \frac{1}{\sqrt{2\pi \sigma ^{2}}} \right) ^n exp \left( {\frac{-\sum_{i}^{n}\left ( y_{i} -\mu_{i}  \right )^{2}}{2\sigma ^{2}}} \right )$$&lt;p&gt;Now let's take the natural logarithm of each side, mainly to help simpify the equation by separating the products into sums:&lt;/p&gt;
+$$ln \left( L(\mu_{i}, \sigma^{2}|y_{i}) \right) = ln \left( \left( \frac{1}{\sqrt{2\pi \sigma ^{2}}} \right) ^n exp \left( {\frac{-\sum_{i}^{n}\left ( y_{i} -\mu_{i}  \right )^{2}}{2\sigma ^{2}}} \right ) \right) $$&lt;p&gt;And since $ln(ab) = ln(a) + ln(b)$:&lt;/p&gt;
+$$ln \left( L(\mu_{i}, \sigma^{2}|y_{i}) \right) = ln \left( \frac{1^n}{\left( 2\pi \sigma ^{2} \right)^{n/2}} \right) + ln \left( exp \left( {\frac{-\sum_{i}^{n}\left ( y_{i} -\mu_{i}  \right )^{2}}{2\sigma ^{2}}} \right ) \right) $$&lt;p&gt;And since $ln(a/b) = ln(a) - ln(b)$:&lt;/p&gt;
+$$ln \left( L(\mu_{i}, \sigma^{2}|y_{i}) \right) = ln \left( 1 \right) ^n - ln \left( 2\pi \sigma ^{2} \right)^{n/2} + ln \left( exp \left( {\frac{-\sum_{i}^{n}\left ( y_{i} -\mu_{i}  \right )^{2}}{2\sigma ^{2}}} \right ) \right) $$&lt;p&gt;And again since $ln(ab) = ln(a) + ln(b)$, and $ln(1)^n = 0$:&lt;/p&gt;
+$$ln \left( L(\mu_{i}, \sigma^{2}|y_{i}) \right) = - \frac{n}{2} ln \left( 2\pi \right) - \frac{n}{2} ln \left( \sigma ^{2} \right) -  {\frac{\sum_{i}^{n}\left ( y_{i} -\mu_{i}  \right )^{2}}{2\sigma ^{2}}} $$&lt;p&gt;Before we go any further, let's see if we can use this log likelihood equation to fit a linear line to noisy data in Python.&lt;/p&gt;
+&lt;h3 id="Python-Implementation"&gt;Python Implementation&lt;a class="anchor-link" href="#Python-Implementation"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Let's generate the same noisy data we generated in the &lt;a href="https://humberanalytics.com/Using-OLS-to-fit-a-linear-line-to-noisy-data.html"&gt;noisy linear OLS example&lt;/a&gt;.  We can use the same seed (100) used in the previous post to generate the same random error vector.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[47]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="k"&gt;matplotlib&lt;/span&gt; inline
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;math&lt;/span&gt;
+
+&lt;span class="n"&gt;N&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;51&lt;/span&gt;
+
+&lt;span class="n"&gt;b0&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;5.67&lt;/span&gt;
+&lt;span class="n"&gt;b1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;2.18&lt;/span&gt;
+
+&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;b0&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b1&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;
+
+&lt;span class="c1"&gt;# generate noise and add it, y = b0 + b1*x + e&lt;/span&gt;
+&lt;span class="n"&gt;mn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="n"&gt;sd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;seed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;normal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mn&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;sd&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;yn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;
+
+&lt;span class="c1"&gt;# set the default size of the plots&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rcParams&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;figure.figsize&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# create ax object for plotting&lt;/span&gt;
+&lt;span class="n"&gt;fig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;subplots&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;r-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;label&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y = &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; + &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;yn&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;b-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;label&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;yn = y + e, mean = 0, sd = 5.0&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# add axes labels and title&lt;/span&gt;
+&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_xlabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_ylabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_title&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Linear Model with Noise&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;legend&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;
+
+    &lt;div class="prompt output_prompt"&gt;Out[47]:&lt;/div&gt;
+
+
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;&amp;lt;matplotlib.legend.Legend at 0x188978274a8&amp;gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;div class="output_area"&gt;
+
+    &lt;div class="prompt"&gt;&lt;/div&gt;
+
+
+
+
+&lt;div class="output_png output_subarea "&gt;
+&lt;img src="data:image/png;base64,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
+"
+&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Now let's code a function that returns a log likelihood value, but before we do this, let's go one further step.  Since $\mu_{i} = \beta_{0}+\beta_{1}x_{i}$ for our two parameter linear regression we can define the sum as a matrix multiplication $\sum_{i}^{n}\left ( y_{i} -\mu_{i}  \right )^{2} = (y-X\beta)^{T}(y-X\beta)$ then:&lt;/p&gt;
+$$ln \left( L(\mu_{i}, \sigma^{2}|y_{i}) \right) = - \frac{n}{2} ln \left( 2\pi \right) - \frac{n}{2} ln \left( \sigma ^{2} \right) - {\frac{(y-X\beta)^{T}(y-X\beta)}{2\sigma ^{2}}} $$&lt;p&gt;We are trying to find the parameters which define the distribution from which the residuals are sampled from, by maximising the (log) likelihood value.  Incidentally, residuals are the differences between the measured data and the estimated values predicted using our model.&lt;/p&gt;
+&lt;p&gt;OK, let's code a Python function which takes the following as optimisation parameters, these are the values we want the optimisation routine to change:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;An estimate of the mean of the noise distribution (i.e. $\beta_{0}$ and $\beta_{1}$)&lt;/li&gt;
+&lt;li&gt;An estimate of the variance of the noise distribution (i.e. $\sigma^{2}$)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Additionally we will pass in the following as fixed arguments, these will not be changed:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A vector of independent terms ($x$)&lt;/li&gt;
+&lt;li&gt;A vector of measured data ($y$)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;We will pack these variables and pass them to our function as an array, we'll set the initial values 1 for all three.  Since we are going to use the &lt;a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html"&gt;scipy minimise&lt;/a&gt; routine to minimise this function we need to return the negative log likelihood.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[50]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;nloglikelihood&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;beta0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;beta1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;var&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt; &lt;span class="c1"&gt;# give the array elements a name to use later in the function&lt;/span&gt;
+    &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;ll1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pi&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;ll2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# create matrix X from vector x&lt;/span&gt;
+    &lt;span class="n"&gt;xr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# convert 1 x N into N x 1&lt;/span&gt;
+    &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;concatenate&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ones&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="n"&gt;xr&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    
+    &lt;span class="c1"&gt;# create the beta vector&lt;/span&gt;
+    &lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;beta0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;beta1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;
+    &lt;span class="n"&gt;ll3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ll1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;ll2&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;ll3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# factor by -1 so we can minimise this function&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Now we can use &lt;a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize"&gt;minimise&lt;/a&gt; to minimise the function.  We will set initial estimates of $\beta_{0}$, $\beta_{1}$ and $\sigma^2$ to 1.0 and also add some bounds to keep the beta and variance estimates positive.  Adding bounds means we need to specify an optimisation method such as &lt;a href="https://docs.scipy.org/doc/scipy/reference/optimize.minimize-lbfgsb.html"&gt;'L-BFGS-B'&lt;/a&gt; in scipy.minimize().&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[54]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# add some bounds to beta0, beta1 and sigma^2&lt;/span&gt;
+&lt;span class="n"&gt;bnds&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="c1"&gt;# minimise the function&lt;/span&gt;
+&lt;span class="n"&gt;res&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;minimize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nloglikelihood&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;yn&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;method&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;L-BFGS-B&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bounds&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;bnds&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# print the estimates of beta0, beta1 and sigma^2&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;beta0    beta1    sigma^2:&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;
+
+    &lt;div class="prompt"&gt;&lt;/div&gt;
+
+
+&lt;div class="output_subarea output_stream output_stdout output_text"&gt;
+&lt;pre&gt;beta0    beta1    sigma^2:
+[ 6.97304083  2.11521975 21.43686883]
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Why-does-MLE-give-the-same-parameters-as-OLS?"&gt;Why does MLE give the same parameters as OLS?&lt;a class="anchor-link" href="#Why-does-MLE-give-the-same-parameters-as-OLS?"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Now we can see that our estimates of $\beta_{0}$ and $\beta_{1}$ are the same as our estimate calculated using the &lt;a href="https://humberanalytics.com/Using-OLS-to-fit-a-linear-line-to-noisy-data.html"&gt;OLS method in a previous post&lt;/a&gt;.  Is this a coincidence?  Let's see what happens if we take the MLE equation described above, partially differentiate it and set it to 0 to try and find it's maximum:&lt;/p&gt;
+$$ln \left( L(\mu_{i}, \sigma^{2}|y_{i}) \right) = - \frac{n}{2} ln \left( 2\pi \right) - \frac{n}{2} ln \left( \sigma ^{2} \right) - {\frac{(y-X\beta)^{T}(y-X\beta)}{2\sigma ^{2}}} $$$$\frac{\partial \left( ln \left( L(\mu_{i}, \sigma^{2}|y_{i}) \right) \right)}{\partial \beta} = \frac{\partial}{\partial \beta} \left(- \frac{n}{2} ln \left( 2\pi \right) - \frac{n}{2} ln \left( \sigma ^{2} \right) - {\frac{(y-X\beta)^{T}(y-X\beta)}{2\sigma ^{2}}} \right) = 0 $$$$- \frac{1}{2\sigma ^{2}} \frac{\partial}{\partial \beta} \left({(y-X\beta)^{T}(y-X\beta)} \right) = 0 $$$$ \frac{\partial}{\partial \beta} \left( y^{T}y - y^{T}XB - X^{T}B^{T}y + X^{T}B^{T}XB\right) = 0 $$&lt;p&gt;And since $y^{T}XB$ is a scalar and $y^{T}XB = X^{T}B^{T}y$:&lt;/p&gt;
+$$ \frac{\partial}{\partial \beta} \left( y^{T}y - 2y^{T}XB + X^{T}B^{T}XB\right) = 0 $$$$  - 2y^{T}X + 2X^{T}B^{T}X = 0 $$$$  X^{T}B^{T}X = y^{T}X $$$$  B = \left( X^{T}X \right)^{-1} X^{T}y $$
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;This is the same equation we derived in the &lt;a href="https://humberanalytics.com/Using-OLS-to-fit-a-linear-line-to-noisy-data.html"&gt;OLS example&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Since our errors are normally distributed, it was no coincidence that maximising the likelihood as we did above gave the same estimate for $\beta$ since both methods yield the same equation for beta.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[&amp;nbsp;]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+ 
+
+
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: 'center'," +
+        "    displayIndent: '0em'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['$','$'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        " linebreaks: { automatic: true, width: '95% container' }, " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+        "    } " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;
+</content><category term="python"></category><category term="MLE"></category><category term="linear model"></category><category term="regression"></category></entry><entry><title>Using OLS to fit a 3rd order polynomial to noisy data</title><link href="https://humberanalytics.com/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html" rel="alternate"></link><published>2019-06-17T00:00:00+01:00</published><updated>2019-06-17T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.com,2019-06-17:/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html</id><summary type="html">&lt;p&gt;This post shows the application of Ordinary Least Squares (OLS) to determine a line of best fit from a noisy 3rd order cubic polynomial model.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
 *
 * IPython notebook
 *
