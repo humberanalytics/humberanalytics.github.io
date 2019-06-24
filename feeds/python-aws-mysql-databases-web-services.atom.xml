@@ -4,7 +4,7 @@
 &lt;p&gt;This post is the first in a series of 3 posts.&lt;/p&gt;
 &lt;h3&gt;Sign up for Amazon Web Services (AWS)&lt;/h3&gt;
 &lt;p&gt;If you haven't got one already you will need to register for a new account with &lt;a href="https://portal.aws.amazon.com/billing/signup#/start"&gt;Amazon Web Services&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src="images/post1.png" height="400" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="./images/post1.png" height="400" /&gt;&lt;/p&gt;
 &lt;p&gt;Once you have registered AWS provides a number of services you can access for free as described &lt;a href="https://aws.amazon.com/free/"&gt;here&lt;/a&gt;.  INcidentally AWS will ask you for some credit/debit card details which you will need to provide to register successfully.  Don't worry since you should be able to follow this tutorial using the free tier resources.&lt;/p&gt;
 &lt;h3&gt;Install AWS CLI&lt;/h3&gt;
 &lt;p&gt;Rather than use the AWS GUI available when you log in we'll manage our instances using the AWS CLI  which enables you to fully manage your AWS cloud resources via terminal commands.  Therefore you will also need to down &lt;/p&gt;</content><category term="posts"></category></entry></feed>
