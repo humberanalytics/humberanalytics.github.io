@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>Humber Analytics</title>
+    <title>Python - Humber Analytics</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -10,8 +10,9 @@
 
     <link href="https://humberanalytics.com/images/favicon.ico" rel="icon">
 
-<link rel="canonical" href="https://humberanalytics.com">
-        <meta name="author" content="Dan Humphreys" />
+
+    <meta name="author" content="Dan Humphreys" />
+    <meta name="keywords" content="Python" />
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="Humber Analytics" />
@@ -33,7 +34,8 @@
         <link href="https://humberanalytics.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
               title="Humber Analytics ATOM Feed"/>
 
-
+        <link href="https://humberanalytics.com/feeds/python.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Humber Analytics Python ATOM Feed"/>
 </head>
 <body>
 
@@ -54,7 +56,7 @@
                         <li >
                             <a href="https://humberanalytics.com/category/posts.html">Posts</a>
                         </li>
-                        <li >
+                        <li class="active">
                             <a href="https://humberanalytics.com/category/python.html">Python</a>
                         </li>
             </ul>
@@ -71,125 +73,12 @@
 </div> <!-- /.navbar -->
 
 <!-- Banner -->
-<style>
-	#banner{
-	    background-image:url("https://humberanalytics.com//images/banner2.jpg");
-	}
-</style>
-
-<div id="banner">
-	<div class="container">
-		<div class="copy">
-			<h1>Humber Analytics</h1>
-				<p class="intro">understanding data through logical analysis</p>
-		</div>
-	</div>
-</div><!-- End Banner -->
+<!-- End Banner -->
 
 <!-- Content Container -->
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-            <article>
-                <h2><a href="https://humberanalytics.com/Using-the-Maximum-Likelihood-Estimation-(MLE)-to-determine-a-linear-line-of-best-fit-to-noisy-data.html">Using the Maximum Likelihood Estimation (MLE) to determine a linear line of best fit to noisy data</a></h2>
-                    <div class="well well-sm">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2019-06-21T00:00:00+01:00"> Fri 21 June 2019</time>
-    </span>
-          <span class="label label-default">Modified</span>
-            <span class="modified">
-                <i class="fa fa-calendar"></i><time datetime="2019-06-21T00:00:00+01:00"> Fri 21 June 2019</time>
-            </span>
-
-
-
-
-
-<span class="label label-default">Tags</span>
-	<a href="https://humberanalytics.com/tag/python.html">python</a>
-        /
-	<a href="https://humberanalytics.com/tag/mle.html">MLE</a>
-        /
-	<a href="https://humberanalytics.com/tag/linear-model.html">linear model</a>
-        /
-	<a href="https://humberanalytics.com/tag/regression.html">regression</a>
-    
-</footer><!-- /.post-info -->                    </div>
-                <div class="summary"><p>This post shows a simple derivation of the likelihood equation, how we can maximise likelihood to determine a line of best fit with Python and how this compares to Ordinary Least Squares (OLS).</p>
-                    <a class="btn btn-default btn-xs" href="https://humberanalytics.com/Using-the-Maximum-Likelihood-Estimation-(MLE)-to-determine-a-linear-line-of-best-fit-to-noisy-data.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="https://humberanalytics.com/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html">Using OLS to fit a 3rd order polynomial to noisy data</a></h2>
-                    <div class="well well-sm">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2019-06-17T00:00:00+01:00"> Mon 17 June 2019</time>
-    </span>
-          <span class="label label-default">Modified</span>
-            <span class="modified">
-                <i class="fa fa-calendar"></i><time datetime="2019-06-17T00:00:00+01:00"> Mon 17 June 2019</time>
-            </span>
-
-
-
-
-
-<span class="label label-default">Tags</span>
-	<a href="https://humberanalytics.com/tag/python.html">python</a>
-        /
-	<a href="https://humberanalytics.com/tag/ols.html">OLS</a>
-        /
-	<a href="https://humberanalytics.com/tag/linear-model.html">linear model</a>
-        /
-	<a href="https://humberanalytics.com/tag/polynomial-model.html">polynomial model</a>
-        /
-	<a href="https://humberanalytics.com/tag/cubic.html">cubic</a>
-        /
-	<a href="https://humberanalytics.com/tag/regression.html">regression</a>
-    
-</footer><!-- /.post-info -->                    </div>
-                <div class="summary"><p>This post shows the application of Ordinary Least Squares (OLS) to determine a line of best fit from a noisy 3rd order cubic polynomial model.</p>
-                    <a class="btn btn-default btn-xs" href="https://humberanalytics.com/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="https://humberanalytics.com/Using-OLS-to-fit-a-linear-line-to-noisy-data.html">Using OLS to fit a linear line to noisy data</a></h2>
-                    <div class="well well-sm">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2019-06-16T00:00:00+01:00"> Sun 16 June 2019</time>
-    </span>
-          <span class="label label-default">Modified</span>
-            <span class="modified">
-                <i class="fa fa-calendar"></i><time datetime="2019-06-19T00:00:00+01:00"> Wed 19 June 2019</time>
-            </span>
-
-
-
-
-
-<span class="label label-default">Tags</span>
-	<a href="https://humberanalytics.com/tag/python.html">python</a>
-        /
-	<a href="https://humberanalytics.com/tag/ols.html">OLS</a>
-        /
-	<a href="https://humberanalytics.com/tag/linear-model.html">linear model</a>
-        /
-	<a href="https://humberanalytics.com/tag/regression.html">regression</a>
-    
-</footer><!-- /.post-info -->                    </div>
-                <div class="summary"><p>This post shows the derivation of the Ordinary Least Squares (OLS) equation and presents a simple test application in Python.</p>
-                    <a class="btn btn-default btn-xs" href="https://humberanalytics.com/Using-OLS-to-fit-a-linear-line-to-noisy-data.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
             <article>
                 <h2><a href="https://humberanalytics.com/my-super-post.html">My super title</a></h2>
                     <div class="well well-sm">
@@ -248,9 +137,6 @@
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
-    <li class="list-group-item"><a href="https://humberanalytics.com/Using-the-Maximum-Likelihood-Estimation-(MLE)-to-determine-a-linear-line-of-best-fit-to-noisy-data.html">Using the Maximum Likelihood Estimation (MLE) to determine a linear line of best fit to noisy data</a></li>
-    <li class="list-group-item"><a href="https://humberanalytics.com/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html">Using OLS to fit a 3rd order polynomial to noisy data</a></li>
-    <li class="list-group-item"><a href="https://humberanalytics.com/Using-OLS-to-fit-a-linear-line-to-noisy-data.html">Using OLS to fit a linear line to noisy data</a></li>
     <li class="list-group-item"><a href="https://humberanalytics.com/my-super-post.html">My super title</a></li>
   </ul>
 </li>
@@ -284,7 +170,7 @@
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2019 Dan Humphreys
+         <div class="col-xs-10">&copy; 2010 Dan Humphreys
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
