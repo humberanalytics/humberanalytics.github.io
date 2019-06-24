@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Humber Analytics - Python</title><link href="https://humberanalytics.com/" rel="alternate"></link><link href="https://humberanalytics.com/feeds/python.atom.xml" rel="self"></link><id>https://humberanalytics.com/</id><updated>2010-12-05T19:30:00+00:00</updated><entry><title>My super title</title><link href="https://humberanalytics.com/my-super-post.html" rel="alternate"></link><published>2010-12-03T10:20:00+00:00</published><updated>2010-12-05T19:30:00+00:00</updated><author><name>Alexis Metaireau</name></author><id>tag:humberanalytics.com,2010-12-03:/my-super-post.html</id><summary type="html">&lt;p&gt;Short version for index and feeds&lt;/p&gt;</summary><content type="html">&lt;p&gt;This is the content of my super blog post.&lt;/p&gt;
-&lt;h2&gt;Building a Database of Price Paid Data for UK Properties on Amazon Web Services&lt;/h2&gt;
-&lt;p&gt;This post describes how a database of the prices paid for UK property can be created on Amazon Web Services.&lt;/p&gt;
-&lt;p&gt;This post is the first in a series of 3 posts.&lt;/p&gt;
-&lt;h3&gt;Creating remote machine on Amazon Web Services (AWS)&lt;/h3&gt;
-&lt;p&gt;If you haven't got one already you will need to register for a new account with &lt;a href="https://portal.aws.amazon.com/billing/signup#/start"&gt;Amazon Web Services&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="AWS Signup" src="file:///images/post1.png"&gt;&lt;/p&gt;</content><category term="pelican"></category><category term="publishing"></category></entry></feed>
