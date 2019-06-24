@@ -119,13 +119,74 @@
 <p>This post is the first in a series of 3 posts.</p>
 <h3>Sign up for Amazon Web Services (AWS)</h3>
 <p>If you haven't got one already you will need to register for a new account with <a href="https://portal.aws.amazon.com/billing/signup#/start">Amazon Web Services</a>.</p>
-<p><img src="./images/post1.png" style="height:400px;" /></p>
+<p><center><img src="https://humberanalytics.com/images/post1.png" style="height:400px;align:middle" /></center>
+<!--<img alt="Alt Text" src="https://humberanalytics.com/images/post1.png">--></p>
 <p>Once you have registered AWS provides a number of services you can access for free as described <a href="https://aws.amazon.com/free/">here</a>.  Incidentally AWS will ask you for some credit/debit card details which you will need to provide to register successfully.  Don't worry since you should be able to follow this tutorial using only the free tier resources.</p>
 <h3>Install AWS CLI</h3>
 <p>Rather than use the AWS GUI available when you log in we'll use the AWS Command Line Interface (CLI)  tool which enables you to fully manage your AWS cloud resources via terminal commands.  Therefore you will also need to download and install <a href="https://aws.amazon.com/cli/">this</a>:</p>
 <p>The installation can be tested in a command prompt by running aws --version:</p>
-<div class="highlight"><pre><span></span><span class="k">C</span><span class="p">:</span><span class="err">\\</span><span class="n">Users</span><span class="err">\\</span><span class="n">dan_h</span><span class="o">&gt;</span><span class="n">aws</span> <span class="c1">--version</span>
-<span class="n">aws</span><span class="o">-</span><span class="n">cli</span><span class="o">/</span><span class="mi">1</span><span class="p">.</span><span class="mi">16</span><span class="p">.</span><span class="mi">184</span> <span class="n">Python</span><span class="o">/</span><span class="mi">3</span><span class="p">.</span><span class="mi">6</span><span class="p">.</span><span class="mi">0</span> <span class="n">Windows</span><span class="o">/</span><span class="mi">10</span> <span class="n">botocore</span><span class="o">/</span><span class="mi">1</span><span class="p">.</span><span class="mi">12</span><span class="p">.</span><span class="mi">174</span>
+<div class="highlight"><pre><span></span>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;aws --version</span>
+aws-cli/1.16.184 Python/3.6.0 Windows/10 botocore/1.12.174
+</pre></div>
+
+
+<h3>Create a new IAM admin group and user</h3>
+<p>Now we will create a new IAM user to avoid using AWS services as the root user, before we do this we need to create an Admins group.</p>
+<p>The following instructions are based on those on the AWS site for <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html">Creating an Administrator IAM User and Group (Console)</a>.</p>
+<ol>
+<li>
+<p>Log into the AWS console at https://console.aws.amazon.com/iam/.</p>
+</li>
+<li>
+<p>Enable access to billing data for the IAM admin user that you will create:
+    a. On the navigation bar, choose your account name, and then choose <strong>My Account</strong>.
+    b. Next to <strong>IAM User and Role Access to Billing Information</strong>, choose <strong>Edit</strong>.
+    c. Select the check box to <strong>Activate IAM Access</strong> and choose <strong>Update</strong>.
+    d. On the navigation bar, choose <strong>Services</strong> and then <strong>IAM</strong> to return to the IAM dashboard.</p>
+</li>
+<li>
+<p>In the navigation pane, choose <strong>Users</strong> and then choose <strong>Add user</strong>.</p>
+</li>
+<li>
+<p>For <strong>User name</strong>, type <strong>Administrator</strong>.</p>
+</li>
+<li>
+<p>Select the checkbox next to <strong>Programmatic access</strong> to generate the access key id and secret access key.  For the purposes of this tutorial, AWS console access is not required for this user.</p>
+</li>
+</ol>
+<p><center><img src="https://humberanalytics.com/images/step1.png" style="height:400px;align:middle" /></center></p>
+<ol>
+<li>
+<p>Choose <strong>Next: Permissions</strong>.</p>
+</li>
+<li>
+<p>On the <strong>Set permissions</strong> page, choose <strong>Add user to group</strong>.</p>
+</li>
+<li>
+<p>Choose <strong>Create group</strong>.</p>
+</li>
+<li>
+<p>In the <strong>Create group</strong> dialog box, for Group name type <strong>Administrators</strong>.</p>
+</li>
+<li>
+<p>Click on the <strong>Filter policies</strong> drop down and then choose <strong>AWS managed - job function</strong> to filter the table contents.</p>
+</li>
+</ol>
+<p><center><img src="https://humberanalytics.com/images/step2.png" style="height:400px;align:middle" /></center></p>
+<ol>
+<li>In the policy list, select the check box for <strong>AdministratorAccess</strong>. Then choose <strong>Create group</strong>.</li>
+</ol>
+<p><center><img src="https://humberanalytics.com/images/step3.png" style="height:400px;align:middle" /></center></p>
+<ol>
+<li>Choose <strong>Next: Tags</strong>.</li>
+</ol>
+<p><center><img src="https://humberanalytics.com/images/step4.png" style="height:400px;align:middle" /></center></p>
+<ol>
+<li>Choose <strong>Next: Review</strong> to continue to the next page since no tags are required, then <strong>Create user</strong>.</li>
+</ol>
+<p>The final page confirms that a new user has been created and the security credentials are available to download for the <strong>Administrator</strong> user.  Click <strong>Download .csv</strong> to download the security credentials (credentials.csv).  This is the only time that these credentials are available to download so ensure they are saved in a safe location, you will need the security information contained in this file to configure the AWS CLI tool in the next step.</p>
+<p>Create an Admins group:</p>
+<div class="highlight"><pre><span></span>aws iam create-group --group-name Admins
 </pre></div>
             </div>
             <!-- /.entry-content -->
