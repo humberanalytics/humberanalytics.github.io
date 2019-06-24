@@ -4464,7 +4464,8 @@ from Python Numpy to carry out thematrix algebra.&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</content><category term="python"></category><category term="OLS"></category><category term="linear model"></category><category term="regression"></category></entry><entry><title>My super title</title><link href="https://humberanalytics.com/my-super-post.html" rel="alternate"></link><published>2010-12-03T10:20:00+00:00</published><updated>2010-12-05T19:30:00+00:00</updated><author><name>Alexis Metaireau</name></author><id>tag:humberanalytics.com,2010-12-03:/my-super-post.html</id><summary type="html">&lt;p&gt;Short version for index and feeds&lt;/p&gt;</summary><content type="html">&lt;p&gt;This is the content of my super blog post.## Building a Database of Price Paid Data for UK Properties on Amazon Web Services&lt;/p&gt;
+</content><category term="python"></category><category term="OLS"></category><category term="linear model"></category><category term="regression"></category></entry><entry><title>My super title</title><link href="https://humberanalytics.com/my-super-post.html" rel="alternate"></link><published>2010-12-03T10:20:00+00:00</published><updated>2010-12-05T19:30:00+00:00</updated><author><name>Alexis Metaireau</name></author><id>tag:humberanalytics.com,2010-12-03:/my-super-post.html</id><summary type="html">&lt;p&gt;Short version for index and feeds&lt;/p&gt;</summary><content type="html">&lt;p&gt;This is the content of my super blog post.&lt;/p&gt;
+&lt;h2&gt;Building a Database of Price Paid Data for UK Properties on Amazon Web Services&lt;/h2&gt;
 &lt;p&gt;This post describes how a database of the prices paid for UK property can be created on Amazon Web Services.&lt;/p&gt;
 &lt;p&gt;This post is the first in a series of 3 posts.&lt;/p&gt;
 &lt;h3&gt;Creating remote machine on Amazon Web Services (AWS)&lt;/h3&gt;
