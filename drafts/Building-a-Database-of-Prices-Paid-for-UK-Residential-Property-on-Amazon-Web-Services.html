@@ -188,9 +188,18 @@ aws-cli/1.16.184 Python/3.6.0 Windows/10 botocore/1.12.174
 </li>
 </ol>
 <p>The final page confirms that a new user has been created and the security credentials are available to download for the <strong>Administrator</strong> user.  Click <strong>Download .csv</strong> to download the security credentials (credentials.csv).  This is the only time that these credentials are available to download so ensure they are saved in a safe location, you will need the security information contained in this file to configure the AWS CLI tool in the next step.</p>
-<p>Create an Admins group:</p>
-<div class="highlight"><pre><span></span>aws iam create-group --group-name Admins
+<h3>Configure the AWS CLI</h3>
+<p>Now run <code>aws configure</code> in a command terminal to configure the AWS CLI tool with your AWS security credentials, this will save your details in a default profile file which is used when you run CLI commands to manage your AWS resources:</p>
+<div class="highlight"><pre><span></span>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;aws configure</span>
+AWS Access Key ID [None]: #######KeyID########
+AWS Secret Access Key [None]: ##############SecretKey#################
+Default region name [None]: eu-west-2
+Default output format [None]:
 </pre></div>
+
+
+<p>I chose the eu-west-2 London ec2 region but you can select the most appropriate region for yourself from <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region">this list</a>.  The default json output format is fine so no need to changes this.</p>
+<p>Now we have created our AWS Adminstrator user and configured the AWS CLI tool we are ready to fire up our first instance.</p>
             </div>
             <!-- /.entry-content -->
     <hr />
