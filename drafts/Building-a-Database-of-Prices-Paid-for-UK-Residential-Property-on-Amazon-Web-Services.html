@@ -199,6 +199,19 @@ Default output format [None]:
 
 <p>I chose the eu-west-2 London ec2 region but you can select the most appropriate region for yourself from <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region">this list</a>.  The default json output format is fine so no need to changes this.</p>
 <p>Now we have created our AWS Adminstrator user and configured the AWS CLI tool we are ready to fire up our first instance.</p>
+<h3>Security Groups</h3>
+<p>aws ec2 create-security-group --group-name my-sg</p>
+<h2>OpenSSH</h2>
+<p>OpenSSH is included in <a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_overview">Windows 10</a>.  To check to see if you have it installed run <code>ssh</code> in a command window and you should see output similar to this:</p>
+<div class="highlight"><pre><span></span>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;ssh</span>
+usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
+           [-D [bind_address:]port] [-E log_file] [-e escape_char]
+           [-F configfile] [-I pkcs11] [-i identity_file]
+           [-J [user@]host[:port]] [-L address] [-l login_name] [-m mac_spec]
+           [-O ctl_cmd] [-o option] [-p port] [-Q query_option] [-R address]
+           [-S ctl_path] [-W host:port] [-w local_tun[:remote_tun]]
+           destination [command]
+</pre></div>
             </div>
             <!-- /.entry-content -->
     <hr />
