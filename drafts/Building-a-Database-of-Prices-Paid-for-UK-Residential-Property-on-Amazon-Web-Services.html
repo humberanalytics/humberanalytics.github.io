@@ -200,8 +200,26 @@ Default output format [None]:
 
 <p>I chose the eu-west-2 London ec2 region but you can select the most appropriate region for yourself from <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region">this list</a>.  The default json output format is fine so no need to changes this.</p>
 <p>Now we have created our AWS Adminstrator user and configured the AWS CLI tool we are ready to fire up our first instance.</p>
-<h3>Security Groups</h3>
-<p>aws ec2 create-security-group --group-name my-sg</p>
+<h3>Security Groups and Inbound Traffic</h3>
+<p>We will create our instance later using the default security group and then use SSH to connect to it.  By default, the default security group does not allow SSH access so we need to enable that now.  This is done via the AWS CLI tool.</p>
+<p>First we need to get the security group id for the default security group:</p>
+<div class="highlight"><pre><span></span><span class="err">:</span><span class="n">batch</span><span class="w"></span>
+<span class="nl">C</span><span class="p">:</span><span class="err">\</span><span class="n">Users</span><span class="err">\</span><span class="n">dan_h</span><span class="o">&gt;</span><span class="n">aws</span><span class="w"> </span><span class="n">ec2</span><span class="w"> </span><span class="k">describe</span><span class="o">-</span><span class="n">security</span><span class="o">-</span><span class="n">groups</span><span class="w"> </span><span class="c1">--group-name=&quot;default&quot; --query &quot;SecurityGroups[*].[GroupId]&quot;</span>
+<span class="w">    </span><span class="o">[</span><span class="n"></span>
+<span class="n">        [</span>
+<span class="n">            &quot;sg-abcd1234&quot;</span>
+<span class="n">        </span><span class="o">]</span><span class="w"></span>
+<span class="w">    </span><span class="err">]</span><span class="w"></span>
+</pre></div>
+
+
+<p>In this example our default security group id is "sg-abcd1234".</p>
+<p>Then we need to allow incoming SSH access by:</p>
+<div class="highlight"><pre><span></span>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;aws ec2 authorize-security-group-ingress --group-id sg-abcd1234 --protocol tcp --port 22 --cidr X.X.X.X/32</span>
+</pre></div>
+
+
+<p>This rule allows SSH access from the IP address specified as X.X.X.X only, therefore X.X.X.X needs to be replaced with your own IP address (i.e. the public IP address of the machine you will be accessing AWS resources from).</p>
 <h2>OpenSSH</h2>
 <p>OpenSSH is included in <a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_overview">Windows 10</a>.  To check to see if you have it installed run <code>ssh</code> in a command window and you should see output similar to this:</p>
 <div class="highlight"><pre><span></span>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;ssh</span>
