@@ -261,13 +261,21 @@ The key&#39;s randomart image is:
 <p>Your fingerprint and randomart will be specific to your generated key pair.</p>
 <p><code>id_rsa</code> is the private key file which stays on the machine from which you will be using to connect to the AWS instance later.  <code>id_rsa.pub</code> is the public key file which is transferred to your AWS account.</p>
 <p>To transfer your public key file run the following <code>import-key-pair</code> AWS CLI command:</p>
-<div class="highlight"><pre><span></span><span class="p">:</span><span class="n">bat</span>
-<span class="k">C</span><span class="p">:</span><span class="err">\</span><span class="n">Users</span><span class="err">\</span><span class="n">dan_h</span><span class="o">&gt;</span><span class="n">aws</span> <span class="n">ec2</span> <span class="n">import</span><span class="o">-</span><span class="k">key</span><span class="o">-</span><span class="n">pair</span> <span class="c1">--key-name &quot;my-key&quot; --public-key-material file://~/.ssh/id_rsa.pub</span>
-<span class="err">{</span>
-    <span class="ss">&quot;KeyFingerprint&quot;</span><span class="p">:</span> <span class="ss">&quot;XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX&quot;</span><span class="p">,</span>
-    <span class="ss">&quot;KeyName&quot;</span><span class="p">:</span> <span class="ss">&quot;my-key&quot;</span>
-<span class="err">}</span>
+<div class="highlight"><pre><span></span>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;aws ec2 import-key-pair --key-name &quot;my-key&quot; --public-key-material file://~/.ssh/id_rsa.pub</span>
+{
+    <span class="s2">&quot;KeyFingerprint&quot;</span>: <span class="s2">&quot;XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX&quot;</span>,
+    <span class="s2">&quot;KeyName&quot;</span>: <span class="s2">&quot;my-key&quot;</span>
+}
 </pre></div>
+
+
+<p>You can confirm the key pair has been created by going to the key pair section on your ec2 dashboard:</p>
+<div class="highlight"><pre><span></span><span class="nt">&lt;center&gt;&lt;img</span> <span class="na">src=</span><span class="s">&quot;{static}/images/step5.png&quot;</span> <span class="na">style=</span><span class="s">&quot;height:600px;align:middle&quot;</span> <span class="nt">/&gt;&lt;/center&gt;</span>
+</pre></div>
+
+
+<p>To recap, this post describes signing up for a new AWS account, installing the AWS CLI, how to use the AWS CLI tool to create a new IAM admin group and user, how to configure the CLI tool with the secret key information, configure the default security group to allow inbound SSH connections and finally the generation of a an SSH key pair and how to inport it into AWS.</p>
+<p>This concludes the first part of the series, the next post will discusses how to start up and connect to an ec2 instance and install the necessary pre-requisite software we need to build our database of property prices.</p>
             </div>
             <!-- /.entry-content -->
     <hr />
