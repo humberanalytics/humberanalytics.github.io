@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>Building a Database of Property Sale Prices on Amazon Web Services - Humber Analytics</title>
+    <title>How to Build a Database of Property Sale Prices on Amazon Web Services - Humber Analytics</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -10,7 +10,7 @@
 
     <link href="https://humberanalytics.com/images/favicon.ico" rel="icon">
 
-<link rel="canonical" href="https://humberanalytics.com/Building-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html">
+<link rel="canonical" href="https://humberanalytics.com/How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html">
 
         <meta name="author" content="Dan Humphreys" />
         <meta name="keywords" content="posts" />
@@ -18,8 +18,8 @@
 
         <meta property="og:site_name" content="Humber Analytics" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="Building a Database of Property Sale Prices on Amazon Web Services"/>
-        <meta property="og:url" content="https://humberanalytics.com/Building-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html"/>
+        <meta property="og:title" content="How to Build a Database of Property Sale Prices on Amazon Web Services"/>
+        <meta property="og:url" content="https://humberanalytics.com/How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html"/>
         <meta property="og:description" content="This post describes how to build a database of property sale prices on Amazon Web Services (AWS)."/>
         <meta property="article:published_time" content="2019-06-27" />
             <meta property="article:section" content="Python, AWS, MySQL, Databases, Analytics" />
@@ -91,10 +91,10 @@
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="https://humberanalytics.com/Building-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html"
+                    <a href="https://humberanalytics.com/How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html"
                        rel="bookmark"
-                       title="Permalink to Building a Database of Property Sale Prices on Amazon Web Services">
-                        Building a Database of Property Sale Prices on Amazon Web Services
+                       title="Permalink to How to Build a Database of Property Sale Prices on Amazon Web Services">
+                        How to Build a Database of Property Sale Prices on Amazon Web Services
                     </a>
                 </h1>
             </header>
@@ -112,7 +112,7 @@
             </span>
 
             <span class="label label-default">Series</span>
-            Part 1 of Building a Database of Property Sale Prices on Amazon Web Services
+            Part 1 of How to Build a Database of Property Sale Prices on Amazon Web Services
 
 
 
@@ -122,7 +122,7 @@
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <h2>Building a Database of Price Paid Data for UK Properties on Amazon Web Services</h2>
+                <h2>How to Build a Database of Property Sale Prices on Amazon Web Services</h2>
 <p>This post describes how a database of the sale prices of property sold in England and Wales can be built using Amazon Web Services.  The data is open data and freely available from the <a href="https://www.gov.uk/government/collections/price-paid-data">Land Registry</a> site.  This post is the first in a series of posts which will describe the process of building the database and eventually running queries on the data to generate some report tables.</p>
 <p>You should be able to work through this tutorial using the free tier resources of <a href="https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&amp;all-free-tier.sort-order=asc">Amazon Web Services</a>.</p>
 <p>This first post describes the following steps:</p>
@@ -135,9 +135,8 @@
 <li>Generate an SSH key pair and import it into your AWS account</li>
 </ul>
 <h3>Sign up for Amazon Web Services (AWS)</h3>
-<p>If you haven't got one already you will need to register for a new account with <a href="https://portal.aws.amazon.com/billing/signup#/start">Amazon Web Services</a>.
-<br/></p>
-<p><br><center><img src="https://humberanalytics.com/images/post1.png" style="height:400px;align:middle" /></center><br></p>
+<p>If you haven't got one already you will need to register for a new account with <a href="https://portal.aws.amazon.com/billing/signup#/start">Amazon Web Services</a>.</p>
+<p><br /><center><img src="https://humberanalytics.com/images/post1.png" style="height:400px;align:middle" /></center><br /></p>
 <p>Once you have registered AWS provides a number of services you can access for free as described <a href="https://aws.amazon.com/free/">here</a>.  AWS will ask you for some credit/debit card details which you will need to provide to register successfully, however don't worry since you should be able to follow this tutorial using only the <a href="https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&amp;all-free-tier.sort-order=asc">free tier resources</a>.</p>
 <h3>Install AWS Command Line Interface (CLI)</h3>
 <p>Rather than use the AWS GUI available when you log in we'll use the AWS Command Line Interface (CLI) tool which enables you to fully manage your AWS cloud resources via terminal commands.  I think using the CLI tool makes the tutorial easier to follow and more concise than adding in images in between the text.  You will need to download and install the AWS CLI tool <a href="https://aws.amazon.com/cli/">from here</a>:</p>
@@ -161,7 +160,7 @@ aws-cli/1.16.184 Python/3.6.0 Windows/10 botocore/1.12.174
 <li>Next to <strong>IAM User and Role Access to Billing Information</strong>, choose <strong>Edit</strong>.</li>
 <li>Select the check box to <strong>Activate IAM Access</strong> and choose <strong>Update</strong>.</li>
 <li>On the navigation bar, choose <strong>Services</strong> and then <strong>IAM</strong> to return to the IAM dashboard.
-<br></li>
+<br /></li>
 </ol>
 </li>
 <li>
@@ -172,7 +171,7 @@ aws-cli/1.16.184 Python/3.6.0 Windows/10 botocore/1.12.174
 </li>
 <li>
 <p>Select the checkbox next to <strong>Programmatic access</strong> to generate the access key id and secret access key.  For the purposes of this tutorial, AWS console access is not required for this user.</p>
-<p><br><center><img src="https://humberanalytics.com/images/step1.png" style="height:600px;align:middle" /></center><br></p>
+<p><br /><center><img src="https://humberanalytics.com/images/step1.png" style="height:600px;align:middle" /></center><br /></p>
 </li>
 <li>
 <p>Choose <strong>Next: Permissions</strong>.</p>
@@ -188,15 +187,15 @@ aws-cli/1.16.184 Python/3.6.0 Windows/10 botocore/1.12.174
 </li>
 <li>
 <p>Click on the <strong>Filter policies</strong> drop down and then choose <strong>AWS managed - job function</strong> to filter the table contents.</p>
-<p><br><center><img src="https://humberanalytics.com/images/step2.png" style="height:400px;align:middle" /></center><br></p>
+<p><br /><center><img src="https://humberanalytics.com/images/step2.png" style="height:400px;align:middle" /></center><br /></p>
 </li>
 <li>
 <p>In the policy list, select the check box for <strong>AdministratorAccess</strong>. Then choose <strong>Create group</strong>.</p>
-<p><br><center><img src="https://humberanalytics.com/images/step3.png" style="height:600px;align:middle" /></center><br></p>
+<p><br /><center><img src="https://humberanalytics.com/images/step3.png" style="height:600px;align:middle" /></center><br /></p>
 </li>
 <li>
 <p>Choose <strong>Next: Tags</strong>.</p>
-<p><br><center><img src="https://humberanalytics.com/images/step4.png" style="height:600px;align:middle" /></center><br></p>
+<p><br /><center><img src="https://humberanalytics.com/images/step4.png" style="height:600px;align:middle" /></center><br /></p>
 </li>
 <li>
 <p>Choose <strong>Next: Review</strong> to continue to the next page since no tags are required, then <strong>Create user</strong>.</p>
@@ -235,7 +234,7 @@ Default output format [None]:
 
 <p>This rule allows SSH access from the IP address specified as X.X.X.X only, therefore X.X.X.X needs to be replaced with your own IP address (i.e. the public IP address of the machine you will be accessing AWS resources from).</p>
 <p>If you want to, you can confirm this change has been made in the AWS management console under <strong>Network and Security</strong>, <strong>Security Groups</strong>:</p>
-<p><br><center><img src="https://humberanalytics.com/images/step4a.png" style="align:middle" /></center><br></p>
+<p><br /><center><img src="https://humberanalytics.com/images/step4a.png" style="align:middle" /></center><br /></p>
 <h3>Generate an SSH key pair and import it into your AWS account</h3>
 <p>OpenSSH is included in <a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_overview">Windows 10</a>.  To check to see if you have it installed run <code>ssh</code> in a command window and you should see output similar to this:</p>
 <div class="highlight"><pre><span></span>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;ssh</span>
@@ -287,14 +286,14 @@ The key&#39;s randomart image is:
 
 
 <p>You can confirm the key pair has been created by going to the key pair section on your ec2 dashboard:</p>
-<p><br><center><img src="https://humberanalytics.com/images/step5.png" style="align:middle" /></center><br></p>
+<p><br /><center><img src="https://humberanalytics.com/images/step5.png" style="align:middle" /></center><br /></p>
 <h2>Conclusion</h2>
 <p>To recap, this post covers signing up for a new AWS account; installing the AWS CLI; how to use the AWS CLI tool to create a new IAM admin group and user; how to configure the CLI tool with the secret key information; how to configure the default security group to allow inbound SSH connections; and finally the generation of a an SSH key pair and importing it into AWS.</p>
 <p>This concludes the first part of the series, the next post will discusses how to start up and connect to an ec2 instance and install the necessary pre-requisite software we need to start building our database of property sale prices.</p>
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
-    <h4>Part 1 of the Building a Database of Property Sale Prices on Amazon Web Services series</h4>
+    <h4>Part 1 of the How to Build a Database of Property Sale Prices on Amazon Web Services series</h4>
 </section>
     <hr />
     <!-- AddThis Button BEGIN -->
@@ -316,8 +315,8 @@ The key&#39;s randomart image is:
             var disqus_config = function () {
                 this.language = "en";
 
-                        this.page.identifier = '2019-06-27-Building-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services';
-                        this.page.url = 'https://humberanalytics.com/Building-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html';
+                        this.page.identifier = '2019-06-27-How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services';
+                        this.page.url = 'https://humberanalytics.com/How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html';
             };
 
             /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -367,7 +366,7 @@ The key&#39;s randomart image is:
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
-    <li class="list-group-item"><a href="https://humberanalytics.com/Building-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html">Building a Database of Property Sale Prices on Amazon Web Services</a></li>
+    <li class="list-group-item"><a href="https://humberanalytics.com/How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html">How to Build a Database of Property Sale Prices on Amazon Web Services</a></li>
     <li class="list-group-item"><a href="https://humberanalytics.com/Using-the-Maximum-Likelihood-Estimation-(MLE)-to-determine-a-linear-line-of-best-fit-to-noisy-data.html">Using the Maximum Likelihood Estimation (MLE) to determine a linear line of best fit to noisy data</a></li>
     <li class="list-group-item"><a href="https://humberanalytics.com/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html">Using OLS to fit a 3rd order polynomial to noisy data</a></li>
     <li class="list-group-item"><a href="https://humberanalytics.com/Using-OLS-to-fit-a-linear-line-to-noisy-data.html">Using OLS to fit a linear line to noisy data</a></li>
