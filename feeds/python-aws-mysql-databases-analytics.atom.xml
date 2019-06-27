@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Humber Analytics - Python, AWS, MySQL, Databases, Web Services</title><link href="https://humberanalytics.com/" rel="alternate"></link><link href="https://humberanalytics.com/feeds/python-aws-mysql-databases-web-services.atom.xml" rel="self"></link><id>https://humberanalytics.com/</id><updated>2019-06-24T00:00:00+01:00</updated><entry><title>Building a Database of Prices Paid for UK Residential Property on Amazon Web Services</title><link href="https://humberanalytics.com/Building-a-Database-of-Prices-Paid-for-UK-Residential-Property-on-Amazon-Web-Services.html" rel="alternate"></link><published>2019-06-24T00:00:00+01:00</published><updated>2019-06-24T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.com,2019-06-24:/Building-a-Database-of-Prices-Paid-for-UK-Residential-Property-on-Amazon-Web-Services.html</id><summary type="html">&lt;p&gt;This post describes how to create a database of prices paid for UK residential properties on Amazon Web Services (AWS).&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Building a Database of Price Paid Data for UK Properties on Amazon Web Services&lt;/h2&gt;
-&lt;p&gt;This post describes how a database of the prices paid for UK property can be created on Amazon Web Services.&lt;/p&gt;
-&lt;p&gt;This post is the first in a series of 3 posts.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Humber Analytics - Python, AWS, MySQL, Databases, Analytics</title><link href="https://humberanalytics.com/" rel="alternate"></link><link href="https://humberanalytics.com/feeds/python-aws-mysql-databases-analytics.atom.xml" rel="self"></link><id>https://humberanalytics.com/</id><updated>2019-06-27T00:00:00+01:00</updated><entry><title>Building a Database of Property Sale Prices on Amazon Web Services</title><link href="https://humberanalytics.com/Building-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html" rel="alternate"></link><published>2019-06-27T00:00:00+01:00</published><updated>2019-06-27T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.com,2019-06-27:/Building-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html</id><summary type="html">&lt;p&gt;This post describes how to build a database of property sale prices on Amazon Web Services (AWS).&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Building a Database of Price Paid Data for UK Properties on Amazon Web Services&lt;/h2&gt;
+&lt;p&gt;This post describes how a database of the sale prices of property sold in England and Wales can be built using Amazon Web Services.  The data is open data and freely available from the &lt;a href="https://www.gov.uk/government/collections/price-paid-data"&gt;Land Registry&lt;/a&gt; site.  This post is the first in a series of posts which will describe the process of building the database and eventually running queries on the data to generate some report tables.&lt;/p&gt;
+&lt;p&gt;You should be able to work through this tutorial using the free tier resources of &lt;a href="https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&amp;amp;all-free-tier.sort-order=asc"&gt;Amazon Web Services&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This first post describes the following steps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sign up for Amazon Web Services (AWS)&lt;/li&gt;
+&lt;li&gt;Install AWS Command Line Interface (CLI)&lt;/li&gt;
+&lt;li&gt;Create a new IAM admin group and user&lt;/li&gt;
+&lt;li&gt;Configure the AWS CLI&lt;/li&gt;
+&lt;li&gt;Edit default security group to allow SSH access&lt;/li&gt;
+&lt;li&gt;Generate an SSH key pair and import it into your AWS account&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3&gt;Sign up for Amazon Web Services (AWS)&lt;/h3&gt;
 &lt;p&gt;If you haven't got one already you will need to register for a new account with &lt;a href="https://portal.aws.amazon.com/billing/signup#/start"&gt;Amazon Web Services&lt;/a&gt;.
 &lt;br/&gt;&lt;/p&gt;
 &lt;p&gt;&lt;br&gt;&lt;center&gt;&lt;img src="https://humberanalytics.com/images/post1.png" style="height:400px;align:middle" /&gt;&lt;/center&gt;&lt;br&gt;&lt;/p&gt;
-&lt;p&gt;Once you have registered AWS provides a number of services you can access for free as described &lt;a href="https://aws.amazon.com/free/"&gt;here&lt;/a&gt;.  Incidentally AWS will ask you for some credit/debit card details which you will need to provide to register successfully.  Don't worry since you should be able to follow this tutorial using only the free tier resources.&lt;/p&gt;
-&lt;h3&gt;Install AWS CLI&lt;/h3&gt;
-&lt;p&gt;Rather than use the AWS GUI available when you log in we'll use the AWS Command Line Interface (CLI)  tool which enables you to fully manage your AWS cloud resources via terminal commands.  Therefore you will also need to download and install &lt;a href="https://aws.amazon.com/cli/"&gt;this&lt;/a&gt;:&lt;/p&gt;
-&lt;p&gt;The installation can be tested in a command prompt by running &lt;code&gt;aws --version&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Once you have registered AWS provides a number of services you can access for free as described &lt;a href="https://aws.amazon.com/free/"&gt;here&lt;/a&gt;.  AWS will ask you for some credit/debit card details which you will need to provide to register successfully, however don't worry since you should be able to follow this tutorial using only the &lt;a href="https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&amp;amp;all-free-tier.sort-order=asc"&gt;free tier resources&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;Install AWS Command Line Interface (CLI)&lt;/h3&gt;
+&lt;p&gt;Rather than use the AWS GUI available when you log in we'll use the AWS Command Line Interface (CLI) tool which enables you to fully manage your AWS cloud resources via terminal commands.  I think using the CLI tool makes the tutorial easier to follow and more concise than adding in images in between the text.  You will need to download and install the AWS CLI tool &lt;a href="https://aws.amazon.com/cli/"&gt;from here&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;After you have installed the tool you can test the installation in a command prompt by running &lt;code&gt;aws --version&lt;/code&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;aws --version&lt;/span&gt;
 aws-cli/1.16.184 Python/3.6.0 Windows/10 botocore/1.12.174
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Create a new IAM admin group and user&lt;/h3&gt;
-&lt;p&gt;Now we will create a new IAM user to avoid using AWS services as the root user, before we do this we need to create an Admins group.&lt;/p&gt;
+&lt;p&gt;Now we will create a new IAM user to avoid using AWS services as the root user, before we do this we need to create an &lt;strong&gt;Administrators&lt;/strong&gt; group.&lt;/p&gt;
 &lt;p&gt;The following instructions are based on those on the AWS site for &lt;a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html"&gt;Creating an Administrator IAM User and Group (Console)&lt;/a&gt;.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -28,7 +37,8 @@ aws-cli/1.16.184 Python/3.6.0 Windows/10 botocore/1.12.174
 &lt;li&gt;On the navigation bar, choose your account name, and then choose &lt;strong&gt;My Account&lt;/strong&gt;.&lt;/li&gt;
 &lt;li&gt;Next to &lt;strong&gt;IAM User and Role Access to Billing Information&lt;/strong&gt;, choose &lt;strong&gt;Edit&lt;/strong&gt;.&lt;/li&gt;
 &lt;li&gt;Select the check box to &lt;strong&gt;Activate IAM Access&lt;/strong&gt; and choose &lt;strong&gt;Update&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;On the navigation bar, choose &lt;strong&gt;Services&lt;/strong&gt; and then &lt;strong&gt;IAM&lt;/strong&gt; to return to the IAM dashboard.&lt;/li&gt;
+&lt;li&gt;On the navigation bar, choose &lt;strong&gt;Services&lt;/strong&gt; and then &lt;strong&gt;IAM&lt;/strong&gt; to return to the IAM dashboard.
+&lt;br&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -39,7 +49,7 @@ aws-cli/1.16.184 Python/3.6.0 Windows/10 botocore/1.12.174
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Select the checkbox next to &lt;strong&gt;Programmatic access&lt;/strong&gt; to generate the access key id and secret access key.  For the purposes of this tutorial, AWS console access is not required for this user.&lt;/p&gt;
-&lt;p&gt;&lt;center&gt;&lt;img src="https://humberanalytics.com/images/step1.png" style="height:600px;align:middle" /&gt;&lt;/center&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;center&gt;&lt;img src="https://humberanalytics.com/images/step1.png" style="height:600px;align:middle" /&gt;&lt;/center&gt;&lt;br&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Choose &lt;strong&gt;Next: Permissions&lt;/strong&gt;.&lt;/p&gt;
@@ -55,15 +65,15 @@ aws-cli/1.16.184 Python/3.6.0 Windows/10 botocore/1.12.174
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Click on the &lt;strong&gt;Filter policies&lt;/strong&gt; drop down and then choose &lt;strong&gt;AWS managed - job function&lt;/strong&gt; to filter the table contents.&lt;/p&gt;
-&lt;p&gt;&lt;center&gt;&lt;img src="https://humberanalytics.com/images/step2.png" style="height:400px;align:middle" /&gt;&lt;/center&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;center&gt;&lt;img src="https://humberanalytics.com/images/step2.png" style="height:400px;align:middle" /&gt;&lt;/center&gt;&lt;br&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;In the policy list, select the check box for &lt;strong&gt;AdministratorAccess&lt;/strong&gt;. Then choose &lt;strong&gt;Create group&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;center&gt;&lt;img src="https://humberanalytics.com/images/step3.png" style="height:600px;align:middle" /&gt;&lt;/center&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;center&gt;&lt;img src="https://humberanalytics.com/images/step3.png" style="height:600px;align:middle" /&gt;&lt;/center&gt;&lt;br&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Choose &lt;strong&gt;Next: Tags&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;center&gt;&lt;img src="https://humberanalytics.com/images/step4.png" style="height:600px;align:middle" /&gt;&lt;/center&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;center&gt;&lt;img src="https://humberanalytics.com/images/step4.png" style="height:600px;align:middle" /&gt;&lt;/center&gt;&lt;br&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Choose &lt;strong&gt;Next: Review&lt;/strong&gt; to continue to the next page since no tags are required, then &lt;strong&gt;Create user&lt;/strong&gt;.&lt;/p&gt;
@@ -80,10 +90,10 @@ Default output format [None]:
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;I chose the eu-west-2 London ec2 region but you can select the most appropriate region for yourself from &lt;a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region"&gt;this list&lt;/a&gt;.  The default json output format is fine so no need to changes this.&lt;/p&gt;
-&lt;p&gt;Now we have created our AWS Adminstrator user and configured the AWS CLI tool we are ready to fire up our first instance.&lt;/p&gt;
-&lt;h3&gt;Security Groups and Inbound Traffic&lt;/h3&gt;
-&lt;p&gt;We will create our instance later using the default security group and then use SSH to connect to it.  By default, the default security group does not allow SSH access so we need to enable that now.  This is done via the AWS CLI tool.&lt;/p&gt;
+&lt;p&gt;I chose the &lt;strong&gt;eu-west-2&lt;/strong&gt; London ec2 region but you can select the most appropriate region for yourself from &lt;a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region"&gt;this list&lt;/a&gt;.  The default json output format is fine so no need to change this.&lt;/p&gt;
+&lt;p&gt;Now we have created our AWS &lt;strong&gt;Administrators&lt;/strong&gt; group, an &lt;strong&gt;Adminstrator&lt;/strong&gt; user, and configured the AWS CLI tool.&lt;/p&gt;
+&lt;h3&gt;Edit default security group to allow SSH access&lt;/h3&gt;
+&lt;p&gt;We will create our instance later using the default security group and then use &lt;a href="https://en.wikipedia.org/wiki/Secure_Shell"&gt;SSH&lt;/a&gt; to connect to it.  By default, the default security group does not allow SSH access so we need to enable that now.  This is done via the AWS CLI tool.&lt;/p&gt;
 &lt;p&gt;First we need to get the security group id for the default security group:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;aws ec2 describe-security-groups --group-name=&amp;quot;default&amp;quot; --query &amp;quot;SecurityGroups[*].[GroupId]&amp;quot;&lt;/span&gt;
     [
@@ -101,7 +111,9 @@ Default output format [None]:
 
 
 &lt;p&gt;This rule allows SSH access from the IP address specified as X.X.X.X only, therefore X.X.X.X needs to be replaced with your own IP address (i.e. the public IP address of the machine you will be accessing AWS resources from).&lt;/p&gt;
-&lt;h3&gt;Key Pair Generation and Configuration&lt;/h3&gt;
+&lt;p&gt;If you want to, you can confirm this change has been made in the AWS management console under &lt;strong&gt;Network and Security&lt;/strong&gt;, &lt;strong&gt;Security Groups&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;center&gt;&lt;img src="https://humberanalytics.com/images/step4a.png" style="align:middle" /&gt;&lt;/center&gt;&lt;br&gt;&lt;/p&gt;
+&lt;h3&gt;Generate an SSH key pair and import it into your AWS account&lt;/h3&gt;
 &lt;p&gt;OpenSSH is included in &lt;a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_overview"&gt;Windows 10&lt;/a&gt;.  To check to see if you have it installed run &lt;code&gt;ssh&lt;/code&gt; in a command window and you should see output similar to this:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;ssh&lt;/span&gt;
 usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
@@ -114,7 +126,7 @@ usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Now generate a new key pair by running &lt;code&gt;ssh-keygen&lt;/code&gt;.  Press Enter to accept the default key file location, enter a passphrase if you want to (I didn't), and the command will generate &lt;a href="https://www.ssh.com/ssh/key/#sec-How-to-set-up-public-key-authentication-for-OpenSSH"&gt;private and public key files&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Now generate a new key pair by running &lt;code&gt;ssh-keygen&lt;/code&gt;.  Press Enter to accept the default key file location, enter a passphrase if you want to (I didn't), and the command will generate &lt;a href="https://www.ssh.com/ssh/key/#sec-How-to-set-up-public-key-authentication-for-OpenSSH"&gt;private and public key files&lt;/a&gt; in a &lt;strong&gt;.ssh&lt;/strong&gt; folder.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;ssh-keygen&lt;/span&gt;
 Generating public/private rsa key pair.
 Enter file in which to save the key (C:\Users\dan_h/.ssh/id_rsa):
@@ -152,6 +164,7 @@ The key&amp;#39;s randomart image is:
 
 
 &lt;p&gt;You can confirm the key pair has been created by going to the key pair section on your ec2 dashboard:&lt;/p&gt;
-&lt;p&gt;&lt;center&gt;&lt;img src="https://humberanalytics.com/images/step5.png" style="height:600px;align:middle" /&gt;&lt;/center&gt;&lt;/p&gt;
-&lt;p&gt;To recap, this post describes signing up for a new AWS account, installing the AWS CLI, how to use the AWS CLI tool to create a new IAM admin group and user, how to configure the CLI tool with the secret key information, configure the default security group to allow inbound SSH connections and finally the generation of a an SSH key pair and how to inport it into AWS.&lt;/p&gt;
-&lt;p&gt;This concludes the first part of the series, the next post will discusses how to start up and connect to an ec2 instance and install the necessary pre-requisite software we need to build our database of property prices.&lt;/p&gt;</content><category term="posts"></category></entry></feed>
+&lt;p&gt;&lt;br&gt;&lt;center&gt;&lt;img src="https://humberanalytics.com/images/step5.png" style="align:middle" /&gt;&lt;/center&gt;&lt;br&gt;&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;To recap, this post covers signing up for a new AWS account; installing the AWS CLI; how to use the AWS CLI tool to create a new IAM admin group and user; how to configure the CLI tool with the secret key information; how to configure the default security group to allow inbound SSH connections; and finally the generation of a an SSH key pair and importing it into AWS.&lt;/p&gt;
+&lt;p&gt;This concludes the first part of the series, the next post will discusses how to start up and connect to an ec2 instance and install the necessary pre-requisite software we need to start building our database of property sale prices.&lt;/p&gt;</content><category term="posts"></category></entry></feed>
