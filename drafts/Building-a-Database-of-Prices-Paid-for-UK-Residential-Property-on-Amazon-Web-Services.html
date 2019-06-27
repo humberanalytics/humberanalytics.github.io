@@ -219,8 +219,7 @@ Default output format [None]:
 
 
 <p>This rule allows SSH access from the IP address specified as X.X.X.X only, therefore X.X.X.X needs to be replaced with your own IP address (i.e. the public IP address of the machine you will be accessing AWS resources from).</p>
-<h3>Key Pairs</h3>
-<h3>OpenSSH</h3>
+<h3>Key Pair Generation and Configuration</h3>
 <p>OpenSSH is included in <a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_overview">Windows 10</a>.  To check to see if you have it installed run <code>ssh</code> in a command window and you should see output similar to this:</p>
 <div class="highlight"><pre><span></span>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;ssh</span>
 usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
@@ -230,6 +229,44 @@ usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
            [-O ctl_cmd] [-o option] [-p port] [-Q query_option] [-R address]
            [-S ctl_path] [-W host:port] [-w local_tun[:remote_tun]]
            destination [command]
+</pre></div>
+
+
+<p>Now generate a new key pair by running <code>ssh-keygen</code>.  Press Enter to accept the default key file location, enter a passphrase if you want to (I didn't), and the command will generate <a href="https://www.ssh.com/ssh/key/#sec-How-to-set-up-public-key-authentication-for-OpenSSH">private and public key files</a>.</p>
+<div class="highlight"><pre><span></span>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;ssh-keygen</span>
+Generating public/private rsa key pair.
+Enter file in which to save the key (C:\Users\dan_h/.ssh/id_rsa):
+Created directory &#39;C:\Users\dan_h/.ssh&#39;.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in C:\Users\dan_h/.ssh/id_rsa.
+Your public key has been saved in C:\Users\dan_h/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+The key&#39;s randomart image is:
++---[RSA 2048]----+
+<span class="p">|</span>                 <span class="p">|</span>
+<span class="p">|</span>                 <span class="p">|</span>
+<span class="p">|</span>                 <span class="p">|</span>
+<span class="p">|</span>                 <span class="p">|</span>
+<span class="p">|</span>                 <span class="p">|</span>
+<span class="p">|</span>                 <span class="p">|</span>
+<span class="p">|</span>                 <span class="p">|</span>
+<span class="p">|</span>                 <span class="p">|</span>
+<span class="p">|</span>                 <span class="p">|</span>
++----[SHA256]-----+
+</pre></div>
+
+
+<p>Your fingerprint and randomart will be specific to your generated key pair.</p>
+<p><code>id_rsa</code> is the private key file which stays on the machine from which you will be using to connect to the AWS instance later.  <code>id_rsa.pub</code> is the public key file which is transferred to your AWS account.</p>
+<p>To transfer your public key file run the following <code>import-key-pair</code> AWS CLI command:</p>
+<div class="highlight"><pre><span></span><span class="p">:</span><span class="n">bat</span>
+<span class="k">C</span><span class="p">:</span><span class="err">\</span><span class="n">Users</span><span class="err">\</span><span class="n">dan_h</span><span class="o">&gt;</span><span class="n">aws</span> <span class="n">ec2</span> <span class="n">import</span><span class="o">-</span><span class="k">key</span><span class="o">-</span><span class="n">pair</span> <span class="c1">--key-name &quot;my-key&quot; --public-key-material file://~/.ssh/id_rsa.pub</span>
+<span class="err">{</span>
+    <span class="ss">&quot;KeyFingerprint&quot;</span><span class="p">:</span> <span class="ss">&quot;XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;KeyName&quot;</span><span class="p">:</span> <span class="ss">&quot;my-key&quot;</span>
+<span class="err">}</span>
 </pre></div>
             </div>
             <!-- /.entry-content -->
