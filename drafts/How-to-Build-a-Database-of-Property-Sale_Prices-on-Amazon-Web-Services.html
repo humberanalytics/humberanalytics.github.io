@@ -10,18 +10,18 @@
 
     <link href="https://humberanalytics.com/images/favicon.ico" rel="icon">
 
-<link rel="canonical" href="https://humberanalytics.com/How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html">
+<link rel="canonical" href="https://humberanalytics.com/drafts/How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html">
 
         <meta name="author" content="Dan Humphreys" />
         <meta name="keywords" content="Python,AWS,MySQL,Databases,Analytics" />
-        <meta name="description" content="This post describes how to build a database of property sale prices on Amazon Web Services (AWS)." />
+        <meta name="description" content="This is the second post in the series. In this post we describe how to start an instance on ec2, connect to it and install MySQL." />
 
         <meta property="og:site_name" content="Humber Analytics" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="How to Build a Database of Property Sale Prices on Amazon Web Services"/>
-        <meta property="og:url" content="https://humberanalytics.com/How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html"/>
-        <meta property="og:description" content="This post describes how to build a database of property sale prices on Amazon Web Services (AWS)."/>
-        <meta property="article:published_time" content="2019-06-27" />
+        <meta property="og:url" content="https://humberanalytics.com/drafts/How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html"/>
+        <meta property="og:description" content="This is the second post in the series. In this post we describe how to start an instance on ec2, connect to it and install MySQL."/>
+        <meta property="article:published_time" content="2019-06-30" />
             <meta property="article:section" content="posts" />
             <meta property="article:tag" content="Python" />
             <meta property="article:tag" content="AWS" />
@@ -92,7 +92,7 @@
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="https://humberanalytics.com/How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html"
+                    <a href="https://humberanalytics.com/drafts/How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html"
                        rel="bookmark"
                        title="Permalink to How to Build a Database of Property Sale Prices on Amazon Web Services">
                         How to Build a Database of Property Sale Prices on Amazon Web Services
@@ -105,15 +105,15 @@
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2019-06-27T00:00:00+01:00"> Thu 27 June 2019</time>
+        <i class="fa fa-calendar"></i><time datetime="2019-06-30T00:00:00+01:00"> Sun 30 June 2019</time>
     </span>
           <span class="label label-default">Modified</span>
             <span class="modified">
-                <i class="fa fa-calendar"></i><time datetime="2019-06-27T00:00:00+01:00"> Thu 27 June 2019</time>
+                <i class="fa fa-calendar"></i><time datetime="2019-06-30T00:00:00+01:00"> Sun 30 June 2019</time>
             </span>
 
             <span class="label label-default">Series</span>
-            Part 1 of How to Build a Database of Property Sale Prices on Amazon Web Services
+            Part <built-in method index of str object at 0x0000021B7A88E378> of 
 
 
 
@@ -132,7 +132,7 @@
 </footer><!-- /.post-info -->                    </div>
                 </div>
                 <h2>How to Build a Database of Property Sale Prices on Amazon Web Services</h2>
-<p>This post describes how a database of the sale prices of property sold in England and Wales can be built using Amazon Web Services.  The data is open data and freely available from the <a href="https://www.gov.uk/government/collections/price-paid-data">Land Registry</a> site.  This post is the first in a series of posts which will describe the process of building the database and eventually running queries on the data to generate some report tables.</p>
+<p>This post describes how a database of the sale prices of property sold in England and Wales can be built using Amazon Web Services.  The data is open data and freely available from the <a href="https://www.gov.uk/government/collections/price-paid-data">Land Registry</a> site.  This post is the second in a series of posts which will describe the process of building the database and eventually running queries on the data to generate some report tables.</p>
 <p>You should be able to work through this tutorial using the free tier resources of <a href="https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&amp;all-free-tier.sort-order=asc">Amazon Web Services</a>.</p>
 <p>This first post describes the following steps:</p>
 <ul>
@@ -143,166 +143,45 @@
 <li>Edit default security group to allow SSH access</li>
 <li>Generate an SSH key pair and import it into your AWS account</li>
 </ul>
-<h3>Sign up for Amazon Web Services (AWS)</h3>
-<p>If you haven't got one already you will need to register for a new account with <a href="https://portal.aws.amazon.com/billing/signup#/start">Amazon Web Services</a>.</p>
-<p><br /><center><img src="https://humberanalytics.com/images/post1.png" style="height:400px;align:middle" /></center><br /></p>
-<p>Once you have registered AWS provides a number of services you can access for free as described <a href="https://aws.amazon.com/free/">here</a>.  AWS will ask you for some credit/debit card details which you will need to provide to register successfully, however don't worry since you should be able to follow this tutorial using only the <a href="https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&amp;all-free-tier.sort-order=asc">free tier resources</a>.</p>
-<h3>Install AWS Command Line Interface (CLI)</h3>
-<p>Rather than use the AWS GUI available when you log in we'll use the AWS Command Line Interface (CLI) tool which enables you to fully manage your AWS cloud resources via terminal commands.  I think using the CLI tool makes the tutorial easier to follow and more concise than adding in images in between the text.  You will need to download and install the AWS CLI tool <a href="https://aws.amazon.com/cli/">from here</a>:</p>
-<p>After you have installed the tool you can test the installation in a command prompt by running <code>aws --version</code>:</p>
-<div class="highlight"><pre><span></span><code>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;aws --version</span>
-aws-cli/1.16.184 Python/3.6.0 Windows/10 botocore/1.12.174
+<h3>Starting a Virtual Machine on AWS ec2</h3>
+<p>We previously installed and configured the AWS CLI and set-up SSH so we should be ready now to fire up a virtual machine on AWS.  We can do this using the <code>run-instances</code> command.  Since we are trying to stay within the free tier, we can run a t2.micro instance for 750 hours a month.  Let's start a Linux Ubuntu instance by running:</p>
+<div class="highlight"><pre><span></span><code>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;aws ec2 run-instances --image-id ami-07dc734dc14746eab --count 1 --instance-type t2.micro --key-name my-key</span>
 </code></pre></div>
 
 
-<h3>Create a new IAM admin group and user</h3>
-<p>Now we will create a new IAM user to avoid using AWS services as the root user, before we do this we need to create an <strong>Administrators</strong> group.</p>
-<p>The following instructions are based on those on the AWS site for <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html">Creating an Administrator IAM User and Group (Console)</a>.</p>
-<ol>
-<li>
-<p>Log into the AWS console at https://console.aws.amazon.com/iam/.</p>
-</li>
-<li>
-<p>Enable access to billing data for the IAM admin user that you will create:</p>
-<ol>
-<li>On the navigation bar, choose your account name, and then choose <strong>My Account</strong>.</li>
-<li>Next to <strong>IAM User and Role Access to Billing Information</strong>, choose <strong>Edit</strong>.</li>
-<li>Select the check box to <strong>Activate IAM Access</strong> and choose <strong>Update</strong>.</li>
-<li>On the navigation bar, choose <strong>Services</strong> and then <strong>IAM</strong> to return to the IAM dashboard.
-<br /></li>
-</ol>
-</li>
-<li>
-<p>In the navigation pane, choose <strong>Users</strong> and then choose <strong>Add user</strong>.</p>
-</li>
-<li>
-<p>For <strong>User name</strong>, type <strong>Administrator</strong>.</p>
-</li>
-<li>
-<p>Select the checkbox next to <strong>Programmatic access</strong> to generate the access key id and secret access key.  For the purposes of this tutorial, AWS console access is not required for this user.</p>
-<p><br /><center><img src="https://humberanalytics.com/images/step1.png" style="height:600px;align:middle" /></center><br /></p>
-</li>
-<li>
-<p>Choose <strong>Next: Permissions</strong>.</p>
-</li>
-<li>
-<p>On the <strong>Set permissions</strong> page, choose <strong>Add user to group</strong>.</p>
-</li>
-<li>
-<p>Choose <strong>Create group</strong>.</p>
-</li>
-<li>
-<p>In the <strong>Create group</strong> dialog box, for Group name type <strong>Administrators</strong>.</p>
-</li>
-<li>
-<p>Click on the <strong>Filter policies</strong> drop down and then choose <strong>AWS managed - job function</strong> to filter the table contents.</p>
-<p><br /><center><img src="https://humberanalytics.com/images/step2.png" style="height:400px;align:middle" /></center><br /></p>
-</li>
-<li>
-<p>In the policy list, select the check box for <strong>AdministratorAccess</strong>. Then choose <strong>Create group</strong>.</p>
-<p><br /><center><img src="https://humberanalytics.com/images/step3.png" style="height:600px;align:middle" /></center><br /></p>
-</li>
-<li>
-<p>Choose <strong>Next: Tags</strong>.</p>
-<p><br /><center><img src="https://humberanalytics.com/images/step4.png" style="height:600px;align:middle" /></center><br /></p>
-</li>
-<li>
-<p>Choose <strong>Next: Review</strong> to continue to the next page since no tags are required, then <strong>Create user</strong>.</p>
-</li>
-</ol>
-<p>The final page confirms that a new user has been created and the security credentials are available to download for the <strong>Administrator</strong> user.  Click <strong>Download .csv</strong> to download the security credentials (credentials.csv).  This is the only time that these credentials are available to download so ensure they are saved in a safe location, you will need the security information contained in this file to configure the AWS CLI tool in the next step.</p>
-<h3>Configure the AWS CLI</h3>
-<p>Now run <code>aws configure</code> in a command terminal to configure the AWS CLI tool with your AWS security credentials, this will save your details in a default profile file which is used when you run CLI commands to manage your AWS resources:</p>
-<div class="highlight"><pre><span></span><code>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;aws configure</span>
-AWS Access Key ID [None]: #######KeyID########
-AWS Secret Access Key [None]: ##############SecretKey#################
-Default region name [None]: eu-west-2
-Default output format [None]:
-</code></pre></div>
-
-
-<p>I chose the <strong>eu-west-2</strong> London ec2 region but you can select the most appropriate region for yourself from <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region">this list</a>.  The default json output format is fine so no need to change this.</p>
-<p>Now we have created our AWS <strong>Administrators</strong> group, an <strong>Adminstrator</strong> user, and configured the AWS CLI tool.</p>
-<h3>Edit default security group to allow SSH access</h3>
-<p>We will create our instance later using the default security group and then use <a href="https://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to connect to it.  By default, the default security group does not allow SSH access so we need to enable that now.  This is done via the AWS CLI tool.</p>
-<p>First we need to get the security group id for the default security group:</p>
-<div class="highlight"><pre><span></span><code>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;aws ec2 describe-security-groups --group-name=&quot;default&quot; --query &quot;SecurityGroups[*].[GroupId]&quot;</span>
+<p>You can check the instance has started by running <code>describe-instances</code> and querying the <strong>PublicIpAddress</strong>:</p>
+<div class="highlight"><pre><span></span><code>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;aws ec2 describe-instances --query &quot;Reservations[*].Instances[*].PublicIpAddress&quot;</span>
+[
     [
-        [
-            <span class="s2">&quot;sg-abcd1234&quot;</span>
-        ]
+        <span class="s2">&quot;XXX.XXX.XXX.XXX&quot;</span>
     ]
+]
 </code></pre></div>
 
 
-<p>In this example our default security group id is "sg-abcd1234".</p>
-<p>Then we need to allow incoming SSH access by adding the following rule:</p>
-<div class="highlight"><pre><span></span><code>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;aws ec2 authorize-security-group-ingress --group-id sg-abcd1234 --protocol tcp --port 22 --cidr X.X.X.X/32</span>
+<p>XXX.XXX.XXX.XXX should be the IP address of the VM we've started on AWS.</p>
+<h3>Connect to the AWS VM using SSH</h3>
+<p>Now we can connect to the Ubuntu instance by running:</p>
+<div class="highlight"><pre><span></span><code>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;ssh ubuntu@XXX.XXX.XXX.XXX</span>
+The authenticity of host &#39;XXX.XXX.XXX.XXX (XXX.XXX.XXX.XXX)&#39; can&#39;t be established.
+ECDSA key fingerprint is XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Are you sure you want to continue connecting (yes/no)? yes
+
+Welcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.15.0-1032-aws x86_64)
+
+* Documentation:  https://help.ubuntu.com
+* Management:     https://landscape.canonical.com
+* Support:        https://ubuntu.com/advantage
 </code></pre></div>
 
 
-<p>This rule allows SSH access from the IP address specified as X.X.X.X only, therefore X.X.X.X needs to be replaced with your own IP address (i.e. the public IP address of the machine you will be accessing AWS resources from).</p>
-<p>If you want to, you can confirm this change has been made in the AWS management console under <strong>Network and Security</strong>, <strong>Security Groups</strong>:</p>
-<p><br /><center><img src="https://humberanalytics.com/images/step4a.png" style="align:middle" /></center><br /></p>
-<h3>Generate an SSH key pair and import it into your AWS account</h3>
-<p>OpenSSH is included in <a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_overview">Windows 10</a>.  To check to see if you have it installed run <code>ssh</code> in a command window and you should see output similar to this:</p>
-<div class="highlight"><pre><span></span><code>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;ssh</span>
-usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
-           [-D [bind_address:]port] [-E log_file] [-e escape_char]
-           [-F configfile] [-I pkcs11] [-i identity_file]
-           [-J [user@]host[:port]] [-L address] [-l login_name] [-m mac_spec]
-           [-O ctl_cmd] [-o option] [-p port] [-Q query_option] [-R address]
-           [-S ctl_path] [-W host:port] [-w local_tun[:remote_tun]]
-           destination [command]
-</code></pre></div>
-
-
-<p>Now generate a new key pair by running <code>ssh-keygen</code>.  Press Enter to accept the default key file location, enter a passphrase if you want to (I didn't), and the command will generate <a href="https://www.ssh.com/ssh/key/#sec-How-to-set-up-public-key-authentication-for-OpenSSH">private and public key files</a> in a <strong>.ssh</strong> folder.</p>
-<div class="highlight"><pre><span></span><code>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;ssh-keygen</span>
-Generating public/private rsa key pair.
-Enter file in which to save the key (C:\Users\dan_h/.ssh/id_rsa):
-Created directory &#39;C:\Users\dan_h/.ssh&#39;.
-Enter passphrase (empty for no passphrase):
-Enter same passphrase again:
-Your identification has been saved in C:\Users\dan_h/.ssh/id_rsa.
-Your public key has been saved in C:\Users\dan_h/.ssh/id_rsa.pub.
-The key fingerprint is:
-SHA256:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-The key&#39;s randomart image is:
-+---[RSA 2048]----+
-<span class="p">|</span>                 <span class="p">|</span>
-<span class="p">|</span>                 <span class="p">|</span>
-<span class="p">|</span>                 <span class="p">|</span>
-<span class="p">|</span>                 <span class="p">|</span>
-<span class="p">|</span>                 <span class="p">|</span>
-<span class="p">|</span>                 <span class="p">|</span>
-<span class="p">|</span>                 <span class="p">|</span>
-<span class="p">|</span>                 <span class="p">|</span>
-<span class="p">|</span>                 <span class="p">|</span>
-+----[SHA256]-----+
-</code></pre></div>
-
-
-<p>Your fingerprint and randomart will be specific to your generated key pair.</p>
-<p><code>id_rsa</code> is the private key file which stays on the machine from which you will be using to connect to the AWS instance later.  <code>id_rsa.pub</code> is the public key file which is transferred to your AWS account.</p>
-<p>To transfer your public key file run the following <code>import-key-pair</code> AWS CLI command:</p>
-<div class="highlight"><pre><span></span><code>C<span class="p">:</span><span class="nl">\Users\dan_h</span><span class="c1">&gt;aws ec2 import-key-pair --key-name &quot;my-key&quot; --public-key-material file://~/.ssh/id_rsa.pub</span>
-{
-    <span class="s2">&quot;KeyFingerprint&quot;</span>: <span class="s2">&quot;XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX&quot;</span>,
-    <span class="s2">&quot;KeyName&quot;</span>: <span class="s2">&quot;my-key&quot;</span>
-}
-</code></pre></div>
-
-
-<p>You can confirm the key pair has been created by going to the key pair section on your ec2 dashboard:</p>
-<p><br /><center><img src="https://humberanalytics.com/images/step5.png" style="align:middle" /></center><br /></p>
 <h2>Conclusion</h2>
 <p>To recap, this post covers signing up for a new AWS account; installing the AWS CLI; how to use the AWS CLI tool to create a new IAM admin group and user; how to configure the CLI tool with the secret key information; how to configure the default security group to allow inbound SSH connections; and finally the generation of a an SSH key pair and importing it into AWS.</p>
 <p>This concludes the first part of the series, the next post will discusses how to start up and connect to an ec2 instance and install the necessary pre-requisite software we need to start building our database of property sale prices.</p>
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
-    <h4>Part 1 of the How to Build a Database of Property Sale Prices on Amazon Web Services series</h4>
+    <h4>Part <built-in method index of str object at 0x0000021B7A88E378> of the  series</h4>
 </section>
     <hr />
     <!-- AddThis Button BEGIN -->
@@ -324,8 +203,8 @@ The key&#39;s randomart image is:
             var disqus_config = function () {
                 this.language = "en";
 
-                        this.page.identifier = '2019-06-27-How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services';
-                        this.page.url = 'https://humberanalytics.com/How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html';
+                        this.page.identifier = '2019-06-30-How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services';
+                        this.page.url = 'https://humberanalytics.com/drafts/How-to-Build-a-Database-of-Property-Sale_Prices-on-Amazon-Web-Services.html';
             };
 
             /* * * DON'T EDIT BELOW THIS LINE * * */

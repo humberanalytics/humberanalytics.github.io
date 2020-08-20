@@ -18,9 +18,9 @@
 &lt;h3&gt;Install AWS Command Line Interface (CLI)&lt;/h3&gt;
 &lt;p&gt;Rather than use the AWS GUI available when you log in we'll use the AWS Command Line Interface (CLI) tool which enables you to fully manage your AWS cloud resources via terminal commands.  I think using the CLI tool makes the tutorial easier to follow and more concise than adding in images in between the text.  You will need to download and install the AWS CLI tool &lt;a href="https://aws.amazon.com/cli/"&gt;from here&lt;/a&gt;:&lt;/p&gt;
 &lt;p&gt;After you have installed the tool you can test the installation in a command prompt by running &lt;code&gt;aws --version&lt;/code&gt;:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;aws --version&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;aws --version&lt;/span&gt;
 aws-cli/1.16.184 Python/3.6.0 Windows/10 botocore/1.12.174
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Create a new IAM admin group and user&lt;/h3&gt;
@@ -81,12 +81,12 @@ aws-cli/1.16.184 Python/3.6.0 Windows/10 botocore/1.12.174
 &lt;p&gt;The final page confirms that a new user has been created and the security credentials are available to download for the &lt;strong&gt;Administrator&lt;/strong&gt; user.  Click &lt;strong&gt;Download .csv&lt;/strong&gt; to download the security credentials (credentials.csv).  This is the only time that these credentials are available to download so ensure they are saved in a safe location, you will need the security information contained in this file to configure the AWS CLI tool in the next step.&lt;/p&gt;
 &lt;h3&gt;Configure the AWS CLI&lt;/h3&gt;
 &lt;p&gt;Now run &lt;code&gt;aws configure&lt;/code&gt; in a command terminal to configure the AWS CLI tool with your AWS security credentials, this will save your details in a default profile file which is used when you run CLI commands to manage your AWS resources:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;aws configure&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;aws configure&lt;/span&gt;
 AWS Access Key ID [None]: #######KeyID########
 AWS Secret Access Key [None]: ##############SecretKey#################
 Default region name [None]: eu-west-2
 Default output format [None]:
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;I chose the &lt;strong&gt;eu-west-2&lt;/strong&gt; London ec2 region but you can select the most appropriate region for yourself from &lt;a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region"&gt;this list&lt;/a&gt;.  The default json output format is fine so no need to change this.&lt;/p&gt;
@@ -94,19 +94,19 @@ Default output format [None]:
 &lt;h3&gt;Edit default security group to allow SSH access&lt;/h3&gt;
 &lt;p&gt;We will create our instance later using the default security group and then use &lt;a href="https://en.wikipedia.org/wiki/Secure_Shell"&gt;SSH&lt;/a&gt; to connect to it.  By default, the default security group does not allow SSH access so we need to enable that now.  This is done via the AWS CLI tool.&lt;/p&gt;
 &lt;p&gt;First we need to get the security group id for the default security group:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;aws ec2 describe-security-groups --group-name=&amp;quot;default&amp;quot; --query &amp;quot;SecurityGroups[*].[GroupId]&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;aws ec2 describe-security-groups --group-name=&amp;quot;default&amp;quot; --query &amp;quot;SecurityGroups[*].[GroupId]&amp;quot;&lt;/span&gt;
     [
         [
             &lt;span class="s2"&gt;&amp;quot;sg-abcd1234&amp;quot;&lt;/span&gt;
         ]
     ]
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;In this example our default security group id is "sg-abcd1234".&lt;/p&gt;
 &lt;p&gt;Then we need to allow incoming SSH access by adding the following rule:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;aws ec2 authorize-security-group-ingress --group-id sg-abcd1234 --protocol tcp --port 22 --cidr X.X.X.X/32&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;aws ec2 authorize-security-group-ingress --group-id sg-abcd1234 --protocol tcp --port 22 --cidr X.X.X.X/32&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;This rule allows SSH access from the IP address specified as X.X.X.X only, therefore X.X.X.X needs to be replaced with your own IP address (i.e. the public IP address of the machine you will be accessing AWS resources from).&lt;/p&gt;
@@ -114,7 +114,7 @@ Default output format [None]:
 &lt;p&gt;&lt;br /&gt;&lt;center&gt;&lt;img src="https://humberanalytics.com/images/step4a.png" style="align:middle" /&gt;&lt;/center&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;h3&gt;Generate an SSH key pair and import it into your AWS account&lt;/h3&gt;
 &lt;p&gt;OpenSSH is included in &lt;a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_overview"&gt;Windows 10&lt;/a&gt;.  To check to see if you have it installed run &lt;code&gt;ssh&lt;/code&gt; in a command window and you should see output similar to this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;ssh&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;ssh&lt;/span&gt;
 usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
            [-D [bind_address:]port] [-E log_file] [-e escape_char]
            [-F configfile] [-I pkcs11] [-i identity_file]
@@ -122,11 +122,11 @@ usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
            [-O ctl_cmd] [-o option] [-p port] [-Q query_option] [-R address]
            [-S ctl_path] [-W host:port] [-w local_tun[:remote_tun]]
            destination [command]
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Now generate a new key pair by running &lt;code&gt;ssh-keygen&lt;/code&gt;.  Press Enter to accept the default key file location, enter a passphrase if you want to (I didn't), and the command will generate &lt;a href="https://www.ssh.com/ssh/key/#sec-How-to-set-up-public-key-authentication-for-OpenSSH"&gt;private and public key files&lt;/a&gt; in a &lt;strong&gt;.ssh&lt;/strong&gt; folder.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;ssh-keygen&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;ssh-keygen&lt;/span&gt;
 Generating public/private rsa key pair.
 Enter file in which to save the key (C:\Users\dan_h/.ssh/id_rsa):
 Created directory &amp;#39;C:\Users\dan_h/.ssh&amp;#39;.
@@ -148,25 +148,25 @@ The key&amp;#39;s randomart image is:
 &lt;span class="p"&gt;|&lt;/span&gt;                 &lt;span class="p"&gt;|&lt;/span&gt;
 &lt;span class="p"&gt;|&lt;/span&gt;                 &lt;span class="p"&gt;|&lt;/span&gt;
 +----[SHA256]-----+
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Your fingerprint and randomart will be specific to your generated key pair.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;id_rsa&lt;/code&gt; is the private key file which stays on the machine from which you will be using to connect to the AWS instance later.  &lt;code&gt;id_rsa.pub&lt;/code&gt; is the public key file which is transferred to your AWS account.&lt;/p&gt;
 &lt;p&gt;To transfer your public key file run the following &lt;code&gt;import-key-pair&lt;/code&gt; AWS CLI command:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;aws ec2 import-key-pair --key-name &amp;quot;my-key&amp;quot; --public-key-material file://~/.ssh/id_rsa.pub&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;C&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nl"&gt;\Users\dan_h&lt;/span&gt;&lt;span class="c1"&gt;&amp;gt;aws ec2 import-key-pair --key-name &amp;quot;my-key&amp;quot; --public-key-material file://~/.ssh/id_rsa.pub&lt;/span&gt;
 {
     &lt;span class="s2"&gt;&amp;quot;KeyFingerprint&amp;quot;&lt;/span&gt;: &lt;span class="s2"&gt;&amp;quot;XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX&amp;quot;&lt;/span&gt;,
     &lt;span class="s2"&gt;&amp;quot;KeyName&amp;quot;&lt;/span&gt;: &lt;span class="s2"&gt;&amp;quot;my-key&amp;quot;&lt;/span&gt;
 }
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;You can confirm the key pair has been created by going to the key pair section on your ec2 dashboard:&lt;/p&gt;
 &lt;p&gt;&lt;br /&gt;&lt;center&gt;&lt;img src="https://humberanalytics.com/images/step5.png" style="align:middle" /&gt;&lt;/center&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;To recap, this post covers signing up for a new AWS account; installing the AWS CLI; how to use the AWS CLI tool to create a new IAM admin group and user; how to configure the CLI tool with the secret key information; how to configure the default security group to allow inbound SSH connections; and finally the generation of a an SSH key pair and importing it into AWS.&lt;/p&gt;
-&lt;p&gt;This concludes the first part of the series, the next post will discusses how to start up and connect to an ec2 instance and install the necessary pre-requisite software we need to start building our database of property sale prices.&lt;/p&gt;</content><category term="Python"></category><category term="AWS"></category><category term="MySQL"></category><category term="Databases"></category><category term="Analytics"></category></entry><entry><title>Using the Maximum Likelihood Estimation (MLE) to determine a linear line of best fit to noisy data</title><link href="https://humberanalytics.com/Using-the-Maximum-Likelihood-Estimation-(MLE)-to-determine-a-linear-line-of-best-fit-to-noisy-data.html" rel="alternate"></link><published>2019-06-21T00:00:00+01:00</published><updated>2019-06-21T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.com,2019-06-21:/Using-the-Maximum-Likelihood-Estimation-(MLE)-to-determine-a-linear-line-of-best-fit-to-noisy-data.html</id><summary type="html">&lt;p&gt;This post shows a simple derivation of the likelihood equation, how we can maximise likelihood to determine a line of best fit with Python and how this compares to Ordinary Least Squares (OLS).&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
+&lt;p&gt;This concludes the first part of the series, the next post will discusses how to start up and connect to an ec2 instance and install the necessary pre-requisite software we need to start building our database of property sale prices.&lt;/p&gt;</content><category term="posts"></category><category term="Python"></category><category term="AWS"></category><category term="MySQL"></category><category term="Databases"></category><category term="Analytics"></category></entry><entry><title>Using the Maximum Likelihood Estimation (MLE) to determine a linear line of best fit to noisy data</title><link href="https://humberanalytics.com/Using-the-Maximum-Likelihood-Estimation-(MLE)-to-determine-a-linear-line-of-best-fit-to-noisy-data.html" rel="alternate"></link><published>2019-06-21T00:00:00+01:00</published><updated>2019-06-21T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.com,2019-06-21:/Using-the-Maximum-Likelihood-Estimation-(MLE)-to-determine-a-linear-line-of-best-fit-to-noisy-data.html</id><summary type="html">&lt;p&gt;This post shows a simple derivation of the likelihood equation, how we can maximise likelihood to determine a line of best fit with Python and how this compares to Ordinary Least Squares (OLS).&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
 *
 * IPython notebook
 *
@@ -1568,7 +1568,7 @@ $$ \frac{\partial}{\partial \beta} \left( y^{T}y - 2y^{T}XB + X^{T}B^{T}XB\right
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</content><category term="python"></category><category term="MLE"></category><category term="linear model"></category><category term="regression"></category></entry><entry><title>Using OLS to fit a 3rd order polynomial to noisy data</title><link href="https://humberanalytics.com/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html" rel="alternate"></link><published>2019-06-17T00:00:00+01:00</published><updated>2019-06-17T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.com,2019-06-17:/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html</id><summary type="html">&lt;p&gt;This post shows the application of Ordinary Least Squares (OLS) to determine a line of best fit from a noisy 3rd order cubic polynomial model.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
+</content><category term="posts"></category><category term="python"></category><category term="MLE"></category><category term="linear model"></category><category term="regression"></category></entry><entry><title>Using OLS to fit a 3rd order polynomial to noisy data</title><link href="https://humberanalytics.com/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html" rel="alternate"></link><published>2019-06-17T00:00:00+01:00</published><updated>2019-06-17T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.com,2019-06-17:/Using-OLS-to-fit-a-3rd-order-polynomial-to-noisy-data.html</id><summary type="html">&lt;p&gt;This post shows the application of Ordinary Least Squares (OLS) to determine a line of best fit from a noisy 3rd order cubic polynomial model.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
 *
 * IPython notebook
 *
@@ -3094,7 +3094,7 @@ $$\hat \beta = (X^T X)^{-1} X^T y$$&lt;p&gt;Which we coded in our ols() function
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</content><category term="python"></category><category term="OLS"></category><category term="linear model"></category><category term="polynomial model"></category><category term="cubic"></category><category term="regression"></category></entry><entry><title>Using OLS to fit a linear line to noisy data</title><link href="https://humberanalytics.com/Using-OLS-to-fit-a-linear-line-to-noisy-data.html" rel="alternate"></link><published>2019-06-16T00:00:00+01:00</published><updated>2019-06-19T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.com,2019-06-16:/Using-OLS-to-fit-a-linear-line-to-noisy-data.html</id><summary type="html">&lt;p&gt;This post shows the derivation of the Ordinary Least Squares (OLS) equation and presents a simple test application in Python.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
+</content><category term="posts"></category><category term="python"></category><category term="OLS"></category><category term="linear model"></category><category term="polynomial model"></category><category term="cubic"></category><category term="regression"></category></entry><entry><title>Using OLS to fit a linear line to noisy data</title><link href="https://humberanalytics.com/Using-OLS-to-fit-a-linear-line-to-noisy-data.html" rel="alternate"></link><published>2019-06-16T00:00:00+01:00</published><updated>2019-06-19T00:00:00+01:00</updated><author><name>Dan Humphreys</name></author><id>tag:humberanalytics.com,2019-06-16:/Using-OLS-to-fit-a-linear-line-to-noisy-data.html</id><summary type="html">&lt;p&gt;This post shows the derivation of the Ordinary Least Squares (OLS) equation and presents a simple test application in Python.&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
 *
 * IPython notebook
 *
@@ -4631,4 +4631,4 @@ from Python Numpy to carry out thematrix algebra.&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</content><category term="python"></category><category term="OLS"></category><category term="linear model"></category><category term="regression"></category></entry></feed>
+</content><category term="posts"></category><category term="python"></category><category term="OLS"></category><category term="linear model"></category><category term="regression"></category></entry></feed>
